@@ -12,9 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
@@ -108,9 +107,9 @@
         <p class="absolute bottom-3 left-5 text-white text-xs font-bold tracking-wide drop-shadow">Welcome to JU FreshHub</p>
       </div>
 
-      <div class="flex items-center gap-3 mb-6">
+      <div class="flex items-center gap-3.5 mb-6">
         <div class="ju-logo-box w-14 h-14 shrink-0 rounded-2xl overflow-hidden bg-gradient-to-br from-brand-600 to-brand-900 flex items-center justify-center text-white font-display font-extrabold text-xl shadow-lg shadow-brand-700/40">
-          <img class="ju-logo-img hidden w-full h-full object-contain p-1" alt="JU logo" />
+          <img class="ju-logo-img hidden w-full h-full object-cover scale-[1.15]" alt="JU logo" />
           <span class="ju-logo-text">JU</span>
         </div>
         <div>
@@ -162,7 +161,7 @@
       <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <div class="ju-logo-box w-10 h-10 shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-brand-600 to-brand-900 text-white flex items-center justify-center font-display font-extrabold text-base shadow-md shadow-brand-700/30">
-            <img class="ju-logo-img hidden w-full h-full object-contain p-0.5" alt="JU logo" />
+            <img class="ju-logo-img hidden w-full h-full object-cover scale-[1.15]" alt="JU logo" />
             <span class="ju-logo-text">JU</span>
           </div>
           <div class="min-w-0">
@@ -195,7 +194,7 @@
     <!-- Main Content -->
     <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-      <!-- Optional Hero Banner -->
+      <!-- Hero Banner -->
       <section id="dash-hero" class="hidden relative h-32 sm:h-40 rounded-3xl overflow-hidden shadow-lg shadow-slate-900/10">
         <img id="dash-hero-img" class="w-full h-full object-cover" alt="Campus Banner" />
         <div class="absolute inset-0 bg-gradient-to-r from-brand-900/85 via-brand-900/40 to-transparent"></div>
@@ -252,7 +251,6 @@
 
   <!-- ======================== SCRIPT ======================== -->
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDhb3KHZYGtDzAxd7v7rakyUqwNL4B2YYQ",
       authDomain: "ju-freshhub.firebaseapp.com",
@@ -266,26 +264,23 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Optional Branding Assets
     const JU_BRANDING = {
       logo: 'file_0000000038ec821190116c867f864f21.png',
       loginPhoto: 'Floating Books and Bright Ideas.png',
       dashPhoto: 'Learning Journey to the Stars.png'
     };
 
-    // Course Curriculum Database
     const coursesDB = [
       {
         id: "maths",
         title: "Mathematics for Natural Sciences",
+        desc: "Propositional logic, set theory, real and complex numbers, functions, and analytic geometry.",
         icon: "calculator",
         accent: "from-indigo-600 to-indigo-800",
         badgeBg: "bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300",
         chapters: [
           {
-            id: "math-ch1",
-            num: "Chapter 1",
-            title: "Propositional Logic and Set Theory",
+            id: "math-ch1", num: "Chapter 1", title: "Propositional Logic and Set Theory",
             topics: [
               { title: "Foundations of Propositional Logic", file: "maths 1.html" },
               { title: "The Five Logical Connectives", file: "maths 2.html" },
@@ -300,18 +295,14 @@
             ]
           },
           {
-            id: "math-ch2",
-            num: "Chapter 2",
-            title: "The Real and Complex Number Systems",
+            id: "math-ch2", num: "Chapter 2", title: "The Real and Complex Number Systems",
             topics: [
               { title: "Real Numbers, Intervals & Mathematical Induction", file: null },
               { title: "Complex Numbers & Polar Form (De Moivre's Theorem)", file: null }
             ]
           },
           {
-            id: "math-ch3",
-            num: "Chapter 3",
-            title: "Functions",
+            id: "math-ch3", num: "Chapter 3", title: "Functions",
             topics: [
               { title: "Relations, Functions, Domain & Range", file: null },
               { title: "Polynomial, Rational, Exponential & Logarithmic Functions", file: null },
@@ -319,9 +310,7 @@
             ]
           },
           {
-            id: "math-ch4",
-            num: "Chapter 4",
-            title: "Analytic Geometry",
+            id: "math-ch4", num: "Chapter 4", title: "Analytic Geometry",
             topics: [
               { title: "Distance, Slope & Equations of Lines", file: null },
               { title: "Conic Sections (Circle, Parabola, Ellipse, Hyperbola)", file: null }
@@ -332,6 +321,7 @@
       {
         id: "physics",
         title: "General Physics",
+        desc: "Measurements, vectors, mechanics, fluid dynamics, thermodynamics, waves, and electromagnetism.",
         icon: "atom",
         accent: "from-sky-600 to-sky-800",
         badgeBg: "bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300",
@@ -347,6 +337,7 @@
       {
         id: "geography",
         title: "Geography of Ethiopia & the Horn",
+        desc: "Geographical location, geological history, topography, drainage, climate, soils, and population.",
         icon: "globe",
         accent: "from-teal-600 to-teal-800",
         badgeBg: "bg-teal-50 dark:bg-teal-500/15 text-teal-700 dark:text-teal-300",
@@ -363,6 +354,7 @@
       {
         id: "english",
         title: "Communicative English Skills",
+        desc: "Academic study strategies, reading comprehension, applied grammar, and essay writing skills.",
         icon: "book-open",
         accent: "from-orange-500 to-orange-700",
         badgeBg: "bg-orange-50 dark:bg-orange-500/15 text-orange-700 dark:text-orange-300",
@@ -377,6 +369,7 @@
       {
         id: "psychology",
         title: "General Psychology",
+        desc: "Science of behavior, sensation, perception, learning theories, memory, motivation, and personality.",
         icon: "brain",
         accent: "from-purple-600 to-purple-800",
         badgeBg: "bg-purple-50 dark:bg-purple-500/15 text-purple-700 dark:text-purple-300",
@@ -392,6 +385,7 @@
       {
         id: "logic",
         title: "Logic and Critical Thinking",
+        desc: "Philosophical foundations, argument analysis, informal fallacies, and categorical syllogisms.",
         icon: "lightbulb",
         accent: "from-rose-600 to-rose-800",
         badgeBg: "bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300",
@@ -405,20 +399,11 @@
       }
     ];
 
-    let state = {
-      view: "courses",
-      courseId: null,
-      chapterId: null,
-      searchQuery: ""
-    };
-
+    let state = { view: "courses", courseId: null, chapterId: null, searchQuery: "" };
     let currentStudentName = "Student";
     let completedFiles = [];
-    try {
-      completedFiles = JSON.parse(localStorage.getItem("freshhub_completed_topics") || "[]");
-    } catch (e) {}
+    try { completedFiles = JSON.parse(localStorage.getItem("freshhub_completed_topics") || "[]"); } catch (e) {}
 
-    // Initialize Application
     document.addEventListener("DOMContentLoaded", () => {
       applyBranding();
       syncThemeIcon();
@@ -428,18 +413,13 @@
       lucide.createIcons();
     });
 
-    // Firebase Auth Listener (Open to authenticated JU FreshHub students)
     function setupAuthListener() {
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           document.getElementById("auth-modal").classList.add("hidden");
           document.getElementById("app-container").classList.remove("hidden");
-
-          // Default fallback name from email
           currentStudentName = user.displayName || (user.email ? user.email.split("@")[0] : "Student");
           updateUserProfileDisplay(user);
-
-          // Fetch optional Firestore profile according to user collection rules
           try {
             const docSnap = await db.collection("users").doc(user.uid).get();
             if (docSnap.exists) {
@@ -449,10 +429,7 @@
                 updateUserProfileDisplay(user, data);
               }
             }
-          } catch (err) {
-            // Safely ignore if user profile doc doesn't exist or rules restrict reading
-          }
-
+          } catch (err) {}
           render();
           lucide.createIcons();
         } else {
@@ -511,12 +488,9 @@
     }
 
     function handleSignOut() {
-      if (confirm("Sign out of JU FreshHub?")) {
-        auth.signOut();
-      }
+      if (confirm("Sign out of JU FreshHub?")) auth.signOut();
     }
 
-    // Navigation & Rendering
     const appMount = document.getElementById("app-mount");
     const navBar = document.getElementById("nav-bar");
     const btnBack = document.getElementById("btn-back");
@@ -541,13 +515,9 @@
         return;
       }
 
-      if (state.view === "courses") {
-        renderCourses();
-      } else if (state.view === "chapters") {
-        renderChapters();
-      } else if (state.view === "topics") {
-        renderTopics();
-      }
+      if (state.view === "courses") renderCourses();
+      else if (state.view === "chapters") renderChapters();
+      else if (state.view === "topics") renderTopics();
 
       lucide.createIcons();
     }
@@ -563,16 +533,13 @@
       grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4";
 
       coursesDB.forEach(course => {
-        const readyTopicsCount = course.chapters.reduce((sum, ch) => {
-          return sum + ch.topics.filter(t => t.file !== null).length;
-        }, 0);
-
+        const readyTopicsCount = course.chapters.reduce((sum, ch) => sum + ch.topics.filter(t => t.file !== null).length, 0);
         const card = document.createElement("div");
         card.className = "card p-5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition flex flex-col justify-between";
 
         card.innerHTML = `
           <div>
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between mb-3.5">
               <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${course.accent} text-white flex items-center justify-center shadow-sm">
                 <i data-lucide="${course.icon}" class="w-5 h-5"></i>
               </div>
@@ -581,12 +548,15 @@
                 : `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Upcoming</span>`
               }
             </div>
-            <h4 class="font-display font-bold text-slate-900 dark:text-white text-base leading-snug mb-1">${escapeHtml(course.title)}</h4>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">${course.chapters.length} Chapters</p>
+            <h4 class="font-display font-bold text-slate-900 dark:text-white text-base leading-snug mb-1.5">${escapeHtml(course.title)}</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-3">${escapeHtml(course.desc)}</p>
           </div>
-          <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-brand-700 dark:text-brand-400">
-            <span>View Chapters</span>
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          <div>
+            <div class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-3">${course.chapters.length} Chapters</div>
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-brand-700 dark:text-brand-400">
+              <span>View Chapters</span>
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </div>
           </div>
         `;
 
@@ -608,12 +578,15 @@
       breadcrumb.innerText = `Courses > ${course.title}`;
 
       const headerRow = document.createElement("div");
-      headerRow.className = "flex items-center gap-2.5 mb-3";
+      headerRow.className = "mb-4 space-y-1";
       headerRow.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br ${course.accent} text-white flex items-center justify-center">
-          <i data-lucide="${course.icon}" class="w-4 h-4"></i>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br ${course.accent} text-white flex items-center justify-center shrink-0">
+            <i data-lucide="${course.icon}" class="w-4 h-4"></i>
+          </div>
+          <h3 class="font-display font-bold text-slate-900 dark:text-white text-base sm:text-lg">${escapeHtml(course.title)}</h3>
         </div>
-        <h3 class="font-display font-bold text-slate-900 dark:text-white text-base sm:text-lg">${escapeHtml(course.title)}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 pl-10">${escapeHtml(course.desc)}</p>
       `;
       appMount.appendChild(headerRow);
 
@@ -726,21 +699,22 @@
       let matchCount = 0;
 
       coursesDB.forEach(course => {
-        if (course.title.toLowerCase().includes(q)) {
+        if (course.title.toLowerCase().includes(q) || course.desc.toLowerCase().includes(q)) {
           matchCount++;
           const card = document.createElement("div");
-          card.className = "card p-4 cursor-pointer hover:border-brand-400 transition flex items-center justify-between";
+          card.className = "card p-4 cursor-pointer hover:border-brand-400 transition flex items-center justify-between gap-3";
           card.innerHTML = `
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 min-w-0">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${course.accent} text-white flex items-center justify-center shrink-0">
                 <i data-lucide="${course.icon}" class="w-5 h-5"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Course</span>
-                <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm">${escapeHtml(course.title)}</h4>
+                <h4 class="font-display font-bold text-slate-900 dark:text-white text-sm truncate">${escapeHtml(course.title)}</h4>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(course.desc)}</p>
               </div>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 shrink-0"></i>
           `;
           card.addEventListener("click", () => {
             state.searchQuery = "";
@@ -792,25 +766,15 @@
     }
 
     window.toggleTopicDone = function(file) {
-      if (completedFiles.includes(file)) {
-        completedFiles = completedFiles.filter(f => f !== file);
-      } else {
-        completedFiles.push(file);
-      }
-      try {
-        localStorage.setItem("freshhub_completed_topics", JSON.stringify(completedFiles));
-      } catch (e) {}
+      if (completedFiles.includes(file)) completedFiles = completedFiles.filter(f => f !== file);
+      else completedFiles.push(file);
+      try { localStorage.setItem("freshhub_completed_topics", JSON.stringify(completedFiles)); } catch (e) {}
       render();
     };
 
     btnBack.addEventListener("click", () => {
-      if (state.view === "topics") {
-        state.view = "chapters";
-        state.chapterId = null;
-      } else if (state.view === "chapters") {
-        state.view = "courses";
-        state.courseId = null;
-      }
+      if (state.view === "topics") { state.view = "chapters"; state.chapterId = null; }
+      else if (state.view === "chapters") { state.view = "courses"; state.courseId = null; }
       render();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -820,7 +784,6 @@
       render();
     });
 
-    // UI Helpers
     function togglePasswordVisibility() {
       const input = document.getElementById("student-password");
       const show = input.type === "password";
@@ -857,12 +820,10 @@
     function safeSrc(u) {
       return (u.startsWith("data:") || u.includes("%")) ? u : encodeURI(u);
     }
-function getBrand(key) {
-      try {
-        return localStorage.getItem("ju_brand_" + key) || JU_BRANDING[key] || "";
-      } catch (e) {
-        return JU_BRANDING[key] || "";
-      }
+
+    function getBrand(key) {
+      try { return localStorage.getItem("ju_brand_" + key) || JU_BRANDING[key] || ""; }
+      catch (e) { return JU_BRANDING[key] || ""; }
     }
 
     function applyBranding() {
@@ -879,7 +840,7 @@ function getBrand(key) {
           img.src = safeSrc(logo);
           img.classList.remove("hidden");
           txt.classList.add("hidden");
-          box.style.background = "#ffffff";
+          box.style.background = "transparent";
         } else {
           img.classList.add("hidden");
           txt.classList.remove("hidden");
