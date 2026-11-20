@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arguments and Validity</title>
+  <!-- MathJax for mathematical notation and deductions -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+    th, td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .tt-t {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .tt-f {
+      color: var(--error);
+      font-weight: bold;
+    }
+    .critical-row {
+      background-color: #f0fdf4;
+      font-weight: 600;
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .inference-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .inference-title {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Arguments and Validity</h1>
+    <p>Logical Deduction, Truth Table Testing, and Rules of Inference</p>
+  </header>
+
+  <!-- 1. What is an argument? -->
+  <div class="card">
+    <h2>1. What is an Argument?</h2>
+    
+    <div class="analogy-box">
+      🔍 <strong>Detective Analogy:</strong> A detective investigates a crime by gathering physical clues (premises). By applying rational deduction, the detective derives who committed the crime (conclusion). If the conclusion inescapably follows from true clues, the reasoning is sound. That is the exact function of a logical argument.
+    </div>
+
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> An <strong>argument</strong> (or <em>logical deduction</em>) is an assertion that a given set of propositions \(p_1, p_2, \dots, p_n\), called <strong>hypotheses</strong> (or <strong>premises</strong>), yields or implies another proposition \(q\), called the <strong>conclusion</strong>.
+    </div>
+
+    <p>An argument consists of two structural parts:</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Role in Argument</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Premises (Hypotheses)</strong></td><td>The given assertions or evidence provided in support of a claim.</td></tr>
+          <tr><td><strong>Conclusion</strong></td><td>The final assertion claimed to follow necessarily from the premises.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Standard Example:</h3>
+    <ul>
+      <li>If you study hard, you will pass the exam.</li>
+      <li>You did not pass the exam.</li>
+      <li><strong>Therefore, you did not study hard.</strong></li>
+    </ul>
+
+    <p>Letting \(p\): <em>You study hard</em>, and \(q\): <em>You pass the exam</em>, the argument is symbolized as:</p>
+    <div style="text-align: center; font-size: 1.1rem; margin: 10px 0;">
+      \[
+      \begin{aligned}
+      p \to q &\quad (\text{Premise 1}) \\
+      \neg q &\quad (\text{Premise 2}) \\
+      \hline
+      \therefore \neg p &\quad (\text{Conclusion})
+      \end{aligned}
+      \]
+    </div>
+    <p><em>(The symbol \(\therefore\) reads "therefore".)</em></p>
+  </div>
+
+  <!-- 2. What is validity? -->
+  <div class="card">
+    <h2>2. Concept of Validity</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition of Validity:</strong> An argument is <strong>VALID</strong> if and only if whenever all its premises are True, the conclusion <strong>MUST also be True</strong>.<br><br>
+      Equivalently: An argument is valid if the conditional statement:
+      \[(p_1 \land p_2 \land \dots \land p_n) \to q\]
+      is a <strong>tautology</strong>.
+    </div>
+
+    <p>An argument is <strong>INVALID</strong> (a <em>fallacy</em>) if there is at least one row in its truth table where <strong>all premises are True, but the conclusion is False</strong>.</p>
+
+    <div class="alert-box">
+      ⚠️ <strong>Vital Exam Distinction:</strong> Validity refers strictly to the <strong>logical structure</strong> of the argument, not to whether the premises are factual in the real world. An argument can have false premises and still be completely valid!
+    </div>
+  </div>
+
+  <!-- 3. Testing validity using truth tables -->
+  <div class="card">
+    <h2>3. Testing Validity Using Truth Tables</h2>
+    <p>To determine validity using a truth table:</p>
+    <ol>
+      <li>Construct columns for all premises and the conclusion.</li>
+      <li>Identify the <strong>critical rows</strong> (rows where <em>every</em> premise evaluates to <span class="tt-t">True</span>).</li>
+      <li>Inspect the conclusion in those critical rows:
+        <ul>
+          <li>If the conclusion is <span class="tt-t">True</span> in <strong>all critical rows</strong> &rarr; The argument is <strong>VALID</strong>.</li>
+          <li>If the conclusion is <span class="tt-f">False</span> in <strong>even one critical row</strong> &rarr; The argument is <strong>INVALID</strong>.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Testing: \(p \to q, \; \neg q \; \therefore \neg p\)</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>\(p\)</th>
+            <th>\(q\)</th>
+            <th>Premise 1: \(p \to q\)</th>
+            <th>Premise 2: \(\neg q\)</th>
+            <th>Conclusion: \(\neg p\)</th>
+            <th>Evaluation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tt-t">T</td><td class="tt-t">T</td>
+            <td class="tt-t">T</td><td class="tt-f">F</td>
+            <td class="tt-f">F</td>
+            <td>Not a critical row (Premise 2 is F)</td>
+          </tr>
+          <tr>
+            <td class="tt-t">T</td><td class="tt-f">F</td>
+            <td class="tt-f">F</td><td class="tt-t">T</td>
+            <td class="tt-f">F</td>
+            <td>Not a critical row (Premise 1 is F)</td>
+          </tr>
+          <tr>
+            <td class="tt-f">F</td><td class="tt-t">T</td>
+            <td class="tt-t">T</td><td class="tt-f">F</td>
+            <td class="tt-t">T</td>
+            <td>Not a critical row (Premise 2 is F)</td>
+          </tr>
+          <tr class="critical-row">
+            <td class="tt-f">F</td><td class="tt-f">F</td>
+            <td class="tt-t">T</td><td class="tt-t">T</td>
+            <td class="tt-t">T</td>
+            <td><strong>CRITICAL ROW (Both premises T &rarr; Conclusion T)</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>In Row 4, both premises are True, and the conclusion \(\neg p\) is also True. Since there is no row where the premises are True and the conclusion is False, the argument is <strong>VALID</strong>.</p>
+  </div>
+
+  <!-- 4. Rules of inference -->
+  <div class="card">
+    <h2>4. Formal Rules of Inference</h2>
+    <p>Rules of inference are standard, universally valid deductive forms used to construct proofs without drawing large truth tables:</p>
+
+    <!-- 1. Modus Ponens -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>1. Modus Ponens (Law of Detachment)</span>
+        <span>\(p \to q, \; p \vdash q\)</span>
+      </div>
+      <p>If an implication is true and its hypothesis is true, its conclusion must be true.</p>
+      \[
+      \begin{aligned}
+      p \to q \\
+      p \\
+      \hline
+      \therefore q
+      \end{aligned}
+      \]
+      <small><em>Memory rule: Confirm the condition &rarr; Confirm the result.</em></small>
+    </div>
+
+    <!-- 2. Modus Tollens -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>2. Modus Tollens</span>
+        <span>\(p \to q, \; \neg q \vdash \neg p\)</span>
+      </div>
+      <p>If an implication is true and its conclusion is false, its hypothesis must be false.</p>
+      \[
+      \begin{aligned}
+      p \to q \\
+      \neg q \\
+      \hline
+      \therefore \neg p
+      \end{aligned}
+      \]
+      <small><em>Memory rule: Deny the result &rarr; Deny the condition.</em></small>
+    </div>
+
+    <!-- 3. Principle of Syllogism -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>3. Principle of Syllogism (Hypothetical Syllogism)</span>
+        <span>\(p \to q, \; q \to r \vdash p \to r\)</span>
+      </div>
+      <p>Chains two conditional statements together transitively.</p>
+      \[
+      \begin{aligned}
+      p \to q \\
+      q \to r \\
+      \hline
+      \therefore p \to r
+      \end{aligned}
+      \]
+    </div>
+
+    <!-- 4. Principle of Adjunction -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>4. Principle of Adjunction (Conjunction Introduction)</span>
+        <span>\(p, \; q \vdash p \land q\)</span>
+      </div>
+      <p>If two separate statements are true independently, their conjunction is true.</p>
+      \[
+      \begin{aligned}
+      p \\
+      q \\
+      \hline
+      \therefore p \land q
+      \end{aligned}
+      \]
+    </div>
+
+    <!-- 5. Principle of Simplification / Detachment -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>5. Principle of Simplification</span>
+        <span>\(p \land q \vdash p\)</span>
+      </div>
+      <p>If a conjunction is true, either of its conjuncts can be deduced as true.</p>
+      \[
+      \begin{aligned}
+      p \land q \\
+      \hline
+      \therefore p
+      \end{aligned}
+      \]
+    </div>
+
+    <!-- 6. Modus Tollendo Ponens -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>6. Modus Tollendo Ponens (Disjunctive Syllogism)</span>
+        <span>\(p \lor q, \; \neg p \vdash q\)</span>
+      </div>
+      <p>Given an alternative where at least one is true, denying one forces the other to be true.</p>
+      \[
+      \begin{aligned}
+      p \lor q \\
+      \neg p \\
+      \hline
+      \therefore q
+      \end{aligned}
+      \]
+    </div>
+
+    <!-- 7. Modus Ponendo Tollens -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>7. Modus Ponendo Tollens (Exclusive Disjunction)</span>
+        <span>\(\neg(p \land q), \; p \vdash \neg q\)</span>
+      </div>
+      <p>If two statements cannot both be true simultaneously, affirming one eliminates the other.</p>
+      \[
+      \begin{aligned}
+      \neg(p \land q) \\
+      p \\
+      \hline
+      \therefore \neg q
+      \end{aligned}
+      \]
+    </div>
+
+    <!-- 8. Constructive Dilemma -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>8. Constructive Dilemma</span>
+        <span>\((p \to r) \land (q \to s), \; p \lor q \vdash r \lor s\)</span>
+      </div>
+      <p>Combines two conditional statements with a disjunction of their antecedents.</p>
+      \[
+      \begin{aligned}
+      (p \to r) \land (q \to s) \\
+      p \lor q \\
+      \hline
+      \therefore r \lor s
+      \end{aligned}
+      \]
+    </div>
+
+    <!-- 9. Principle of Equivalence -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>9. Principle of Equivalence</span>
+        <span>\(p \equiv q\)</span>
+      </div>
+      <p>Any statement or part of a statement may be replaced by a logically equivalent expression without changing the argument's validity (e.g., replacing \(p \to q\) with \(\neg p \lor q\)).</p>
+    </div>
+
+    <!-- 10. Principle of Conditionalization -->
+    <div class="inference-card">
+      <div class="inference-title">
+        <span>10. Principle of Conditionalization (Conditional Proof)</span>
+      </div>
+      <p>To establish a conditional conclusion \(p \to q\), assume \(p\) as an auxiliary premise. If \(q\) is derived logically from this assumption, then \(p \to q\) is validly established.</p>
+    </div>
+  </div>
+
+  <!-- 5. Formal proof of validity -->
+  <div class="card">
+    <h2>5. Formal Proof of Validity</h2>
+    <p>A <strong>formal proof</strong> is a finite sequence of numbered statements such that each statement is either a premise or follows from earlier lines via a valid rule of inference, ending with the conclusion.</p>
+
+    <h3>Deduction Example:</h3>
+    <p>Given the premises: \(p \to q\), \(q \to r\), and \(p\). Prove the conclusion: \(r\).</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Step</th><th>Statement</th><th>Justification</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>\(p \to q\)</td><td>Premise</td></tr>
+          <tr><td>2</td><td>\(q \to r\)</td><td>Premise</td></tr>
+          <tr><td>3</td><td>\(p\)</td><td>Premise</td></tr>
+          <tr><td>4</td><td>\(q\)</td><td>Modus Ponens from steps (1, 3)</td></tr>
+          <tr><td>5</td><td>\(r\)</td><td>Modus Ponens from steps (2, 4)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The conclusion \(r\) has been formally deduced as valid.</p>
+  </div>
+
+  <!-- 6. Common exam traps -->
+  <div class="card">
+    <h2>6. Classic Valid Forms vs. Common Fallacies</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Argument Form</th><th>Symbolic Structure</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Modus Ponens</strong></td>
+            <td>\(p \to q, \; p \;\therefore q\)</td>
+            <td><strong style="color: var(--success);">VALID</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Fallacy of Affirming the Consequent</strong></td>
+            <td>\(p \to q, \; q \;\therefore p\)</td>
+            <td><strong style="color: var(--error);">INVALID (Fallacy)</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Modus Tollens</strong></td>
+            <td>\(p \to q, \; \neg q \;\therefore \neg p\)</td>
+            <td><strong style="color: var(--success);">VALID</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Fallacy of Denying the Antecedent</strong></td>
+            <td>\(p \to q, \; \neg p \;\therefore \neg q\)</td>
+            <td><strong style="color: var(--error);">INVALID (Fallacy)</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      ⚠️ <strong>Exam Trap:</strong><br>
+      • Affirming the condition (\(p\)) validly gives the result (\(q\)). But confirming the result (\(q\)) does <strong>NOT</strong> prove \(p\) happened (the patient could have passed for other reasons).<br>
+      • Denying the result (\(\neg q\)) validly denies the condition (\(\neg p\)). But denying the condition (\(\neg p\)) does <strong>NOT</strong> prove \(\neg q\).
+    </div>
+  </div>
+
+  <!-- Interactive Quiz -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. In formal logic, an argument fundamentally consists of:",
+      options: [
+        "A. Questions and commands",
+        "B. Premises and a conclusion",
+        "C. Variables and quantifiers",
+        "D. Sets and elements"
+      ],
+      correct: 1,
+      exp: "Correct! An argument consists of a set of declarative statements given as evidence (premises/hypotheses) and a statement claimed to follow from them (conclusion)."
+    },
+    {
+      q: "Question 2. A deductive argument is valid if and only if:",
+      options: [
+        "A. All premises are always true in reality",
+        "B. The conclusion is always true",
+        "C. Whenever all premises are true, the conclusion must also be true",
+        "D. At least one premise is false"
+      ],
+      correct: 2,
+      exp: "Correct! By definition, validity means it is impossible for all premises to be true while the conclusion is simultaneously false."
+    },
+    {
+      q: "Question 3. Which rule of inference is represented by the argument form: p → q, p ∴ q?",
+      options: [
+        "A. Modus Tollens",
+        "B. Modus Ponens",
+        "C. Principle of Syllogism",
+        "D. Principle of Adjunction"
+      ],
+      correct: 1,
+      exp: "Correct! Modus Ponens (affirming the antecedent) states that if p implies q, and p is true, then q must follow."
+    },
+    {
+      q: "Question 4. Which rule of inference is represented by: p → q, ¬q ∴ ¬p?",
+      options: [
+        "A. Modus Ponens",
+        "B. Principle of Adjunction",
+        "C. Modus Tollens",
+        "D. Constructive Dilemma"
+      ],
+      correct: 2,
+      exp: "Correct! Modus Tollens (denying the consequent) states that if p implies q, but q is false, then p must be false."
+    },
+    {
+      q: "Question 5. Which of the following argument forms is INVALID (a logical fallacy)?",
+      options: [
+        "A. p → q, p ∴ q",
+        "B. p → q, ¬q ∴ ¬p",
+        "C. p → q, q ∴ p",
+        "D. p → q, q → r ∴ p → r"
+      ],
+      correct: 2,
+      exp: "Correct! 'p → q, q ∴ p' is the Fallacy of Affirming the Consequent and is invalid. (If p=F and q=T, the premises are both True, but the conclusion p is False)."
+    },
+    {
+      q: "Question 6. From the given premises p → q and q → r, which conclusion is validly deduced?",
+      options: [
+        "A. p → r",
+        "B. r → p",
+        "C. p ∧ r",
+        "D. ¬p"
+      ],
+      correct: 0,
+      exp: "Correct! By the Principle of Hypothetical Syllogism (chain rule), p → q and q → r validly yield p → r."
+    },
+    {
+      q: "Question 7. If the disjunction p ∨ q is true and ¬p is true, which conclusion necessarily follows?",
+      options: [
+        "A. ¬q",
+        "B. p",
+        "C. q",
+        "D. p ∧ q"
+      ],
+      correct: 2,
+      exp: "Correct! By Modus Tollendo Ponens (Disjunctive Syllogism), given that p ∨ q is true and p is false (¬p is true), q must be true."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

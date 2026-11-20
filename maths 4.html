@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tautology, Contradiction and Contingency</title>
+  <!-- MathJax for mathematical notation and equations -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Truth Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+    th, td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .tt-t {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .tt-f {
+      color: var(--error);
+      font-weight: bold;
+    }
+
+    /* Boxes */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .classification-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+      text-align: center;
+    }
+    @media (max-width: 480px) {
+      .classification-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .class-box {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .class-box.tautology {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .class-box.contradiction {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+    .class-box.contingency {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+    .class-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Tautology, Contradiction and Contingency</h1>
+    <p>Classification of Compound Propositions by Truth Value Distribution</p>
+  </header>
+
+  <!-- Intro Card -->
+  <div class="card">
+    <div class="analogy-box">
+      ⚙️ <strong>The Output Verification Analogy:</strong> Imagine testing an electronic system under every possible input combination. Depending on the final output signal across all tests, the proposition falls into exactly one of three fundamental classifications:
+      <ul>
+        <li>Always outputs <strong>TRUE</strong> &rarr; <strong>Tautology</strong></li>
+        <li>Always outputs <strong>FALSE</strong> &rarr; <strong>Contradiction</strong></li>
+        <li>Outputs a <strong>mixture</strong> of TRUE and FALSE &rarr; <strong>Contingency</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1. Tautology -->
+  <div class="card">
+    <h2>1. Tautology</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A compound proposition is called a <strong>tautology</strong> if it is <strong>ALWAYS TRUE</strong> for all possible truth values of its constituent propositional variables.
+    </div>
+
+    <h3>Canonical Example: \(p \lor \neg p\)</h3>
+    <p><em>Read as:</em> "\(p\) OR NOT \(p\)."</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(\neg p\)</th><th>\(p \lor \neg p\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Every single entry in the final column is <span class="tt-t">True</span>. Therefore, \(p \lor \neg p\) is a <strong>tautology</strong> (often symbolically denoted by \(\mathbf{T}\)).</p>
+
+    <div class="analogy-box">
+      💡 <strong>Intuitive Analogy:</strong> <em>"Either the electric lamp is ON, or it is NOT ON."</em> Under the law of excluded middle in classical logic, this compound statement is universally true under every circumstance.
+    </div>
+  </div>
+
+  <!-- 2. Contradiction -->
+  <div class="card">
+    <h2>2. Contradiction</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A compound proposition is called a <strong>contradiction</strong> (or <em>absurdity</em>) if it is <strong>ALWAYS FALSE</strong> for all possible truth values of its constituent propositional variables.
+    </div>
+
+    <h3>Canonical Example: \(p \land \neg p\)</h3>
+    <p><em>Read as:</em> "\(p\) AND NOT \(p\)."</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(\neg p\)</th><th>\(p \land \neg p\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Every single entry in the final column is <span class="tt-f">False</span>. Therefore, \(p \land \neg p\) is a <strong>contradiction</strong> (often symbolically denoted by \(\mathbf{F}\)).</p>
+
+    <div class="analogy-box">
+      💡 <strong>Intuitive Analogy:</strong> <em>"The electric lamp is ON AND the electric lamp is NOT ON"</em> at the exact same moment. Both conditions can never occur simultaneously; it is universally false.
+    </div>
+  </div>
+
+  <!-- 3. Contingency -->
+  <div class="card">
+    <h2>3. Contingency</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A proposition is a <strong>contingency</strong> if it is <strong>neither a tautology nor a contradiction</strong>. Its truth value depends (is contingent) upon the truth values of its constituent variables—evaluating to True in some cases and False in others.
+    </div>
+
+    <h3>Canonical Example: \(p \land q\)</h3>
+    <p><em>Read as:</em> "\(p\) AND \(q\)."</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(p \land q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The final column contains both <span class="tt-t">True</span> and <span class="tt-f">False</span> outcomes. Therefore, \(p \land q\) is a <strong>contingency</strong>.</p>
+  </div>
+
+  <!-- 4. Identification in Examinations -->
+  <div class="card">
+    <h2>4. How to Identify Them in Examinations</h2>
+    <p>To classify any compound proposition in an examination, construct the truth table and inspect <strong>ONLY the final column</strong>:</p>
+
+    <div class="classification-grid">
+      <div class="class-box tautology">
+        <div class="class-title" style="color: var(--success);">Tautology</div>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Final Column:</p>
+        <div style="font-weight: bold; color: var(--success); margin: 6px 0;">T<br>T<br>T<br>T</div>
+        <strong style="font-size: 0.8rem; color: var(--success);">All entries TRUE</strong>
+      </div>
+      <div class="class-box contradiction">
+        <div class="class-title" style="color: var(--error);">Contradiction</div>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Final Column:</p>
+        <div style="font-weight: bold; color: var(--error); margin: 6px 0;">F<br>F<br>F<br>F</div>
+        <strong style="font-size: 0.8rem; color: var(--error);">All entries FALSE</strong>
+      </div>
+      <div class="class-box contingency">
+        <div class="class-title" style="color: var(--primary);">Contingency</div>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Final Column:</p>
+        <div style="font-weight: bold; color: var(--text); margin: 6px 0;">T<br>F<br>T<br>F</div>
+        <strong style="font-size: 0.8rem; color: var(--primary);">Mixed (T and F)</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Relationship with Logical Equivalence -->
+  <div class="card">
+    <h2>5. Equivalence via Tautology Criterion</h2>
+    <p>There is a direct mathematical connection between bi-implication and logical equivalence:</p>
+
+    <div class="definition-box" style="text-align: center;">
+      <span style="font-size: 1.1rem; font-weight: bold; color: var(--primary);">
+        \(P \equiv Q \iff (P \leftrightarrow Q)\) is a Tautology
+      </span>
+    </div>
+
+    <h3>Mathematical Proof of the Principle:</h3>
+    <p>The bi-implication \(P \leftrightarrow Q\) evaluates to <strong>True</strong> if and only if \(P\) and \(Q\) share the exact same truth value. If \(P \leftrightarrow Q\) is a tautology (True across every single row), then the truth values of \(P\) and \(Q\) match in every row, which is the exact definition of logical equivalence (\(P \equiv Q\)).</p>
+
+    <div class="alert-box">
+      📌 <strong>Examination Theorem:</strong> To prove that two complex propositions \(P\) and \(Q\) are logically equivalent without separate column comparisons, construct the column for \(P \leftrightarrow Q\). If it is a <strong>tautology</strong>, equivalence is proven.
+    </div>
+  </div>
+
+  <!-- Self-Assessment Quiz -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. A compound proposition that evaluates to TRUE under every possible assignment of truth values to its components is called a:",
+      options: [
+        "A. Contradiction",
+        "B. Contingency",
+        "C. Tautology",
+        "D. Conjunction"
+      ],
+      correct: 2,
+      exp: "Correct! By definition, a compound statement that is universally True in all possible rows of its truth table is a tautology."
+    },
+    {
+      q: "Question 2. Which of the following symbolic expressions is a contradiction?",
+      options: [
+        "A. p ∨ ¬p",
+        "B. p ∧ ¬p",
+        "C. p → p",
+        "D. p ↔ p"
+      ],
+      correct: 1,
+      exp: "Correct! p ∧ ¬p is always False (T ∧ F = F and F ∧ T = F). Hence, it is a contradiction. The other three choices (p ∨ ¬p, p → p, and p ↔ p) are all tautologies."
+    },
+    {
+      q: "Question 3. After completing the truth table for a proposition, the final column contains the sequence T, F, T, F. How is this proposition classified?",
+      options: [
+        "A. Tautology",
+        "B. Contradiction",
+        "C. Contingency",
+        "D. None of the above"
+      ],
+      correct: 2,
+      exp: "Correct! A proposition that contains a combination of both True and False values in its final column is a contingency."
+    },
+    {
+      q: "Question 4. If every single entry in the final column of a truth table evaluates to False, the proposition is designated as a:",
+      options: [
+        "A. Tautology",
+        "B. Contradiction",
+        "C. Contingency",
+        "D. Logical equivalence"
+      ],
+      correct: 1,
+      exp: "Correct! A compound proposition whose truth table outputs False in every conceivable row is a contradiction."
+    },
+    {
+      q: "Question 5. Two compound propositions P and Q are logically equivalent (P ≡ Q) if and only if which of the following compound propositions is a tautology?",
+      options: [
+        "A. P ∧ Q",
+        "B. P ∨ Q",
+        "C. P → Q",
+        "D. P ↔ Q"
+      ],
+      correct: 3,
+      exp: "Correct! P ≡ Q holds if and only if the biconditional statement P ↔ Q is a tautology, ensuring both sides have identical truth values in every row."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

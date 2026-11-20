@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Venn Diagrams and Applications</title>
+  <!-- MathJax for mathematical notation and set equations -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Images */
+    .img-box {
+      margin: 14px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .img-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      background: #f1f5f9;
+      text-align: center;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Venn Diagrams and Applications</h1>
+    <p>Graphical Representation of Sets, Regional Decompositions, and Set-Theoretic Problem Solving</p>
+  </header>
+
+  <!-- 1. What is a Venn diagram? -->
+  <div class="card">
+    <h2>1. What is a Venn Diagram?</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A <strong>Venn diagram</strong> is an intuitive pictorial representation of sets, where a bounding rectangle represents the universal set \(U\), and closed plane curves (usually circles) represent subsets of \(U\).
+    </div>
+
+    <div class="analogy-box">
+      ⚽ <strong>Student Sports Analogy:</strong> Imagine two student groups:
+      <ul>
+        <li><strong>Set \(A\):</strong> Students who play football.</li>
+        <li><strong>Set \(B\):</strong> Students who play basketball.</li>
+      </ul>
+      A Venn diagram visually segregates those who play football only, those who play basketball only, those who play both sports, and those who play neither.
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/wVMnXRXHBLjVtYVdYvkpwrhjBsui7KYTDzCdkBL6ItRyVJ2lALuTMoBale6Oq1lKktSS4Ke8CCdklumFvVarSfXdRoxmdtorzU69O7YwaaAsfERs5A_BMCydU26cK0zkMNHfxS7bBPq0cYMzDP9ES8yint9G7ph3PrGRreUnZyxqV1AG3hvhVbBPTpac-drk?purpose=fullsize" alt="Set Notation & Venn Diagrams">
+      <div class="img-caption">Structural anatomy of a Venn diagram: Universal rectangle, circles, and intersections</div>
+    </div>
+
+    <h3>Constituent Components:</h3>
+    <ul>
+      <li><strong>Bounding Rectangle (\(U\)):</strong> Represents the universal set containing all elements under consideration.</li>
+      <li><strong>Circle \(A\):</strong> Encloses all members belonging to set \(A\).</li>
+      <li><strong>Circle \(B\):</strong> Encloses all members belonging to set \(B\).</li>
+      <li><strong>Overlapping Region:</strong> Encloses members belonging to both \(A\) and \(B\) simultaneously (\(A \cap B\)).</li>
+    </ul>
+  </div>
+
+  <!-- 2. Understand the four important regions -->
+  <div class="card">
+    <h2>2. Understanding the Four Core Regions</h2>
+    <p>Consider the following sets:</p>
+    <div class="formula-box">
+      \[U = \{1, 2, 3, 4, 5, 6, 7, 8\}\]
+      \[A = \{1, 2, 3, 4\} \quad \text{and} \quad B = \{3, 4, 5, 6\}\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/OYSHVCiAyl2NBXjB9Q9SCPXazaQVV61Gcd2EIg9r659AHXXFHWtAEYXElfmTY52K9Hq-CTSTQ7cGkRsGiLrzOtC9PtucCwg1W90FdKBxe9ku1Vm315C6fmdjpKPuIwrcXUcL5eILFTc9O1bMTXCqVyZxV10X68QuwU832vGT3DMrbqM8MybvcrMiUCtIQeNo?purpose=fullsize" alt="Set Operations with Venn Diagrams">
+      <div class="img-caption">Regional partitions: Union, intersection, difference, and complement</div>
+    </div>
+
+    <h3>A. Union (\(A \cup B\))</h3>
+    <p>Everything in \(A\), or \(B\), or in both combined:</p>
+    <div class="formula-box">\[A \cup B = \{1, 2, 3, 4, 5, 6\}\]</div>
+    <p><em>Rule:</em> Shade the entire area enclosed by both circles.</p>
+
+    <h3>B. Intersection (\(A \cap B\))</h3>
+    <p>Elements shared by both sets simultaneously:</p>
+    <div class="formula-box">\[A \cap B = \{3, 4\}\]</div>
+    <p><em>Rule:</em> Shade only the overlapping lens-shaped region.</p>
+
+    <h3>C. Complement (\(A'\))</h3>
+    <p>All elements situated in the universal set \(U\) that lie outside circle \(A\):</p>
+    <div class="formula-box">\[A' = \{5, 6, 7, 8\}\]</div>
+    <p><em>Rule:</em> Shade everything inside the rectangle \(U\) except circle \(A\).</p>
+
+    <h3>D. Difference (\(A - B\) and \(B - A\))</h3>
+    <p>Elements belonging to one set with the overlap removed:</p>
+    <div class="formula-box">
+      \[A - B = \{1, 2\} \quad \text{and} \quad B - A = \{5, 6\}\]
+    </div>
+    <p><em>Rule:</em> Start with the designated circle and excise the common intersection.</p>
+  </div>
+
+  <!-- 3. Worked Example -->
+  <div class="card">
+    <h2>3. Application Example</h2>
+    <p>Consider the following specifications:</p>
+    <ul>
+      <li>\(U\): The set of one-digit whole numbers &rarr; \(\{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}\)</li>
+      <li>\(A\): The set of one-digit even numbers &rarr; \(\{0, 2, 4, 6, 8\}\)</li>
+      <li>\(B\): The set of positive prime numbers less than \(10\) &rarr; \(\{2, 3, 5, 7\}\)</li>
+    </ul>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/3tY3JmEZGc62xYeObsh0AHsCvRVnjehvBeTZixkuLvyO-bGaALLJ-hgVehURVZPWYYJZd-XuYJkNI4otn_Cn6PiSS9eUHitwcj68_XSiD50vS8YYB1p06dSVVUmnWrwqXofzCR60Zd3rpcW-TExhf1lxOLXsFppXdmG5c_NATbAZSPzzyoum4_gL5G7d8Fas?purpose=fullsize" alt="Worked Venn Diagram Partition">
+      <div class="img-caption">Venn distribution of elements: Overlap \(\{2\}\), \(A\)-only \(\{0, 4, 6, 8\}\), \(B\)-only \(\{3, 5, 7\}\), and exterior \(\{1, 9\}\)</div>
+    </div>
+
+    <h3>Step-by-Step Regional Element Placement:</h3>
+    <ul>
+      <li><strong>Overlap region (\(A \cap B\)):</strong> The number \(2\) is both even and prime.</li>
+      <li><strong>\(A\)-only region (\(A - B\)):</strong> The numbers \(0, 4, 6, 8\) are even but not prime.</li>
+      <li><strong>\(B\)-only region (\(B - A\)):</strong> The numbers \(3, 5, 7\) are prime but not even.</li>
+      <li><strong>Exterior region (\((A \cup B)'\)):</strong> The numbers \(1\) and \(9\) are neither even nor prime, remaining inside \(U\) outside both circles.</li>
+    </ul>
+
+    <h3>Evaluations:</h3>
+    <ol>
+      <li><strong>Find \(A \cap B\):</strong>
+        <div class="formula-box">\(A \cap B = \{2\}\)</div>
+      </li>
+      <li><strong>Find \(A'\):</strong>
+        <div class="formula-box">\(A' = U - A = \{1, 3, 5, 7, 9\}\)</div>
+      </li>
+      <li><strong>Find \(A - B\):</strong>
+        <div class="formula-box">\(A - B = \{0, 4, 6, 8\}\)</div>
+      </li>
+    </ol>
+  </div>
+
+  <!-- 4. Exam tricks -->
+  <div class="card">
+    <h2>4. Quick Examination Shading Guide</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Set Operation</th><th>Target Region to Shade on Venn Diagram</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>\(A \cup B\)</strong></td>
+            <td>Shade the interior of circle \(A\) and circle \(B\) completely.</td>
+          </tr>
+          <tr>
+            <td><strong>\(A \cap B\)</strong></td>
+            <td>Shade <strong>only</strong> the overlapping intersection lens between \(A\) and \(B\).</td>
+          </tr>
+          <tr>
+            <td><strong>\(A'\)</strong></td>
+            <td>Shade everything inside rectangle \(U\) strictly outside circle \(A\).</td>
+          </tr>
+          <tr>
+            <td><strong>\(A - B\)</strong></td>
+            <td>Shade the crescent-shaped region of circle \(A\) excluding the overlap.</td>
+          </tr>
+          <tr>
+            <td><strong>\(B - A\)</strong></td>
+            <td>Shade the crescent-shaped region of circle \(B\) excluding the overlap.</td>
+          </tr>
+          <tr>
+            <td><strong>\(A \triangle B\)</strong></td>
+            <td>Shade both crescents (\(A - B\) and \(B - A\)); leave the central overlap unshaded.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      ⚠️ <strong>Critical Reminder:</strong> Set difference is non-commutative: \(A - B \neq B - A\). Always start with the set on the left of the minus sign and remove any elements shared with the right-hand set.
+    </div>
+  </div>
+
+  <!-- Interactive Quiz (5 Questions) -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px;">
+      <em>Use the following sets for Questions 1–4:</em><br>
+      \(U = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}\)<br>
+      \(A = \{2, 4, 6, 8, 10\}\)<br>
+      \(B = \{2, 3, 5, 7\}\)
+    </p>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. What is the intersection A ∩ B?",
+      options: [
+        "A. {2}",
+        "B. {2, 4, 6, 8, 10}",
+        "C. {3, 5, 7}",
+        "D. ∅"
+      ],
+      correct: 0,
+      exp: "Correct! The only element shared by both A and B is 2, so A ∩ B = {2}."
+    },
+    {
+      q: "Question 2. What is the set difference A − B?",
+      options: [
+        "A. {2}",
+        "B. {4, 6, 8, 10}",
+        "C. {3, 5, 7}",
+        "D. {1, 9}"
+      ],
+      correct: 1,
+      exp: "Correct! Removing the shared element 2 from set A leaves the elements unique to A: {4, 6, 8, 10}."
+    },
+    {
+      q: "Question 3. What is the absolute complement A' with respect to U?",
+      options: [
+        "A. {2, 4, 6, 8, 10}",
+        "B. {2, 3, 5, 7}",
+        "C. {1, 3, 5, 7, 9}",
+        "D. {1, 9}"
+      ],
+      correct: 2,
+      exp: "Correct! A' consists of all odd integers in U that do not belong to A: {1, 3, 5, 7, 9}."
+    },
+    {
+      q: "Question 4. What is the union A ∪ B?",
+      options: [
+        "A. {2}",
+        "B. {2, 3, 4, 5, 6, 7, 8, 10}",
+        "C. {4, 6, 8, 10}",
+        "D. {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}"
+      ],
+      correct: 1,
+      exp: "Correct! Combining all distinct elements of A and B without repetition yields {2, 3, 4, 5, 6, 7, 8, 10}."
+    },
+    {
+      q: "Question 5. In a Venn diagram, two circles A and B do not intersect or overlap at all. What does this indicate about the sets?",
+      options: [
+        "A. A = B",
+        "B. A ∩ B = ∅",
+        "C. A ∪ B = ∅",
+        "D. A is the universal set"
+      ],
+      correct: 1,
+      exp: "Correct! Non-overlapping circles indicate disjoint sets with no elements in common, meaning A ∩ B = ∅."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

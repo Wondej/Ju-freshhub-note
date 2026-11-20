@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set Operations</title>
+  <!-- MathJax for set theory and algebraic notation -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Images */
+    .img-box {
+      margin: 14px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .img-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      background: #f1f5f9;
+      text-align: center;
+    }
+
+    .img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    @media (max-width: 480px) {
+      .img-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Set Operations</h1>
+    <p>Union, Intersection, Set Difference, Complements, and Symmetric Difference</p>
+  </header>
+
+  <!-- 1. Running Example Sets -->
+  <div class="card">
+    <h2>1. The Reference Universe and Sets</h2>
+    <p>To clearly observe how each operation behaves, we use a single consistent reference framework:</p>
+    
+    <div class="formula-box">
+      \[U = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}\]
+      \[A = \{1, 2, 3, 4, 5\} \quad \text{and} \quad B = \{4, 5, 6, 7\}\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/oZ47EVqrdnc_YrLBGmbgR6M3t2_8yh5cf4FwQQpP50GxuyQMqdDhYU7k0LDYXVjFAdvJnj4z9e9LIUdaFBwTcuEJksDgD4nEKaoAD2uBKQI4YANthdRKBLhIfN961hsuvYtC_8NBMWy35xGLo6Vw8OIH4nAGjTxYDJJrft7aqeYtQcaHFhIxLRJvUR5AKTTb?purpose=fullsize" alt="Universal Set and Subsets">
+      <div class="img-caption">Venn Diagram layout: Elements in \(A\), elements in \(B\), overlap, and exterior within \(U\)</div>
+    </div>
+
+    <h3>Partition Analysis:</h3>
+    <ul>
+      <li><strong>Elements in \(A\) only:</strong> \(\{1, 2, 3\}\)</li>
+      <li><strong>Elements in both \(A\) and \(B\):</strong> \(\{4, 5\}\)</li>
+      <li><strong>Elements in \(B\) only:</strong> \(\{6, 7\}\)</li>
+      <li><strong>Elements outside both \(A\) and \(B\) (in \(U\)):</strong> \(\{8, 9, 10\}\)</li>
+    </ul>
+  </div>
+
+  <!-- 2. Union -->
+  <div class="card">
+    <h2>2. Union (\(A \cup B\))</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>union</strong> of two sets \(A\) and \(B\), denoted by \(A \cup B\), is the set of all elements that belong to \(A\), or to \(B\), or to both:
+      \[A \cup B = \{x \mid x \in A \lor x \in B\}\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/N-xKcxEm5Vh0EFFMtmjo_XwRwB7I43LZUjYeEbCzkSkJI0uO2JLvX1z9JlEorMisI_yj-aFRetzpLfAhl2XqnGGXoT7_nboGtqYHGrAGzsSoZ_qAjjFxzPkyIYIe9J0A6ZbhFAjUxes7wgFDubum2Y6ThEy-Ccqi9cN4rsiWgGvmfKznGvgSgBHtZ1OsGx-X?purpose=fullsize" alt="Union of Sets Venn Diagram">
+      <div class="img-caption">Union \(A \cup B\): Entire combined shaded region of both sets</div>
+    </div>
+
+    <p>Using our reference sets: combine all elements without repeating the shared elements \(4\) and \(5\):</p>
+    <div class="formula-box">
+      \[A \cup B = \{1, 2, 3, 4, 5, 6, 7\}\]
+    </div>
+
+    <div class="alert-box">
+      🔗 <strong>Logic Connection:</strong> Set union (\(\cup\)) corresponds directly to the logical inclusive disjunction (\(\lor\)).
+    </div>
+  </div>
+
+  <!-- 3. Intersection -->
+  <div class="card">
+    <h2>3. Intersection (\(A \cap B\)) and Disjoint Sets</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>intersection</strong> of two sets \(A\) and \(B\), denoted by \(A \cap B\), is the set of elements that belong to <strong>both</strong> \(A\) and \(B\) simultaneously:
+      \[A \cap B = \{x \mid x \in A \land x \in B\}\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/KFlQytKvu7fBraSXJV2vTNh_RDqG39tRT6IF4S2YdQ5g1Glff-9S5A7wZ_0t0fSeSDDFmNUI1xDqSwDXaewhxMb2poPYjWX9e2kPFCGEGGqbt05f10eIQMez8MvrA3bt8E71WDxykpmHC508xWMhHFykO-k_rwWbbEkrOYRjcODO4WabU3IE5-0mNPZlx3-P?purpose=fullsize" alt="Intersection Venn Diagram">
+      <div class="img-caption">Intersection \(A \cap B\): Shaded central overlapping region shared by both sets</div>
+    </div>
+
+    <p>Identifying the common members between \(A = \{1, 2, 3, 4, 5\}\) and \(B = \{4, 5, 6, 7\}\):</p>
+    <div class="formula-box">
+      \[A \cap B = \{4, 5\}\]
+    </div>
+
+    <div class="alert-box">
+      🔗 <strong>Logic Connection:</strong> Set intersection (\(\cap\)) corresponds directly to the logical conjunction (\(\land\)).
+    </div>
+
+    <h3>Disjoint Sets</h3>
+    <div class="definition-box">
+      Two sets \(A\) and \(B\) are called <strong>disjoint</strong> (mutually exclusive) if and only if they have no common elements:
+      \[A \cap B = \varnothing\]
+    </div>
+    <p><em>Example:</em> Let \(C = \{1, 3, 5\}\) (odd integers) and \(D = \{2, 4, 6\}\) (even integers). Then \(C \cap D = \varnothing\); sets \(C\) and \(D\) are disjoint.</p>
+  </div>
+
+  <!-- 4. Difference -->
+  <div class="card">
+    <h2>4. Set Difference (Relative Complement)</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>difference</strong> of two sets \(A\) and \(B\) (also read as "\(A\) minus \(B\)"), denoted by \(A - B\) (or \(A \setminus B\)), is the set of all elements that belong to \(A\) but do <strong>not</strong> belong to \(B\):
+      \[A - B = \{x \mid x \in A \land x \notin B\}\]
+    </div>
+
+    <div class="img-grid">
+      <div class="img-box">
+        <img src="https://images.openai.com/static-rsc-4/tOdDBmlVFr3kF7Mslehfkl4pxvH7iO3WC53Kz-np1LNIxAAP98EVdsVbt9FVjLqp0HbzVCaLgIh1_L6ESH-0YWLMJXKqejG9FU0mi9ya2q-O9ZwYkEbgd6LiHjtQGz5gefq4uQtc-GORseL4Jy8swG5bPF7a8BHrUkW6ouxezl3NPYx3rcoX6obWkR8Y7iZA?purpose=fullsize" alt="Set Difference A minus B">
+        <div class="img-caption">\(A - B\): Elements exclusively in \(A\) with overlap removed</div>
+      </div>
+      <div class="img-box">
+        <img src="https://images.openai.com/static-rsc-4/Wg3-5RkTDCrQuY9GpRgZ5BBqDfGtX5NJwkcU2CNbvQQkiQu2UexJL5HhdgGufZw2NMg6FgAYjyhc5cTRT0ntWjj9d2DerIE61759lIEflQfTqlEy6LlGzF3ls_RaL6JRfRT6DZPOsjKqDx6yfQRpA_2m9Q0pD1oaLBsRjq90b4KxshNN4PvxzdN73Usrejgf?purpose=fullsize" alt="Set Difference B minus A">
+        <div class="img-caption">\(B - A\): Elements exclusively in \(B\) with overlap removed</div>
+      </div>
+    </div>
+
+    <p>Using our reference sets:</p>
+    <ul>
+      <li>To find \(A - B\): Take \(A = \{1, 2, 3, 4, 5\}\) and remove the elements that also belong to \(B\) (\(4\) and \(5\)):<br>
+        <div class="formula-box">\[A - B = \{1, 2, 3\}\]</div>
+      </li>
+      <li>To find \(B - A\): Take \(B = \{4, 5, 6, 7\}\) and remove the elements that also belong to \(A\) (\(4\) and \(5\)):<br>
+        <div class="formula-box">\[B - A = \{6, 7\}\]</div>
+      </li>
+    </ul>
+
+    <div class="alert-box">
+      ⚠️ <strong>Non-Commutative Property:</strong> Set difference is <strong>NOT commutative</strong>:
+      \[A - B \neq B - A \quad (\text{unless } A = B)\]
+      The order in which the sets are written strictly matters!
+    </div>
+  </div>
+
+  <!-- 5. Complement -->
+  <div class="card">
+    <h2>5. Absolute Complement (\(A'\))</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>absolute complement</strong> of a set \(A\), denoted by \(A'\) (or \(A^c\), \(\overline{A}\)), is the set of all elements in the universal set \(U\) that are <strong>not</strong> in \(A\):
+      \[A' = U - A = \{x \in U \mid x \notin A\}\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/yQ3Fe7cJJ6LlKgkdt7lBXfOgXuCh6mbLoSTttcpt8CSdLkD9pi8IfE2EUUD3ac2e6TZFOTj7KshjiabA0GNf-1gycdAcV8VIKkHh917NKqkWt9G-iVW9pefKkBUE3xXnUY96pj-A91oZsa5i3wCgmqG4VqPn7N2--7sH2ei5vCS3L91hN1S41Tw45WtXgLxW?purpose=fullsize" alt="Complement of Set A">
+      <div class="img-caption">Complement \(A'\): Everything inside the universal set \(U\) outside circle \(A\)</div>
+    </div>
+
+    <p>Using our universal set \(U = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}\) and \(A = \{1, 2, 3, 4, 5\}\):</p>
+    <div class="formula-box">
+      \[A' = \{6, 7, 8, 9, 10\}\]
+    </div>
+
+    <div class="alert-box">
+      📌 <strong>Domain Dependence:</strong> An absolute complement is fundamentally dependent upon the specified universal set \(U\). If the universal set changes, the resulting complement changes accordingly.
+    </div>
+  </div>
+
+  <!-- 6. Symmetric Difference -->
+  <div class="card">
+    <h2>6. Symmetric Difference (\(A \triangle B\))</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>symmetric difference</strong> of two sets \(A\) and \(B\), denoted by \(A \triangle B\) (or \(A \oplus B\)), is the set of elements that belong to \(A\) or to \(B\), but <strong>NOT to both</strong>:
+      \[A \triangle B = (A - B) \cup (B - A) = (A \cup B) - (A \cap B)\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/ci0pxBLx_Zf1cikx3LhZXCZ1wd4eErKXG9qzrFL0zMZYpfpQSbKPbjcUJpYLb-zsAAHfEKUVl7Ex0qYFZyqmJ-PMEh8EGIk2ud1wfBaYdFKKBg6G8rmsSvJWCloddIyO9LbDPJwh6lg3TmxoOGndpNBHI-70gHviBjKulYsGHlKhzR8AWqGd_UWyJMIXBZ-B?purpose=fullsize" alt="Symmetric Difference Venn Diagram">
+      <div class="img-caption">\(A \triangle B\): Elements in exactly one set; central intersection excluded</div>
+    </div>
+
+    <p>Evaluating using our reference values:</p>
+    <ul>
+      <li>\(A - B = \{1, 2, 3\}\)</li>
+      <li>\(B - A = \{6, 7\}\)</li>
+    </ul>
+    <div class="formula-box">
+      \[A \triangle B = \{1, 2, 3\} \cup \{6, 7\} = \{1, 2, 3, 6, 7\}\]
+    </div>
+    <p><em>(Notice that the shared intersection elements \(4\) and \(5\) are completely excluded).</em></p>
+  </div>
+
+  <!-- 7. Properties of set operations -->
+  <div class="card">
+    <h2>7. Fundamental Algebraic Laws of Set Operations</h2>
+    <p>These identities govern algebraic simplifications of complex set expressions:</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Law Category</th><th>Set Identity Formula</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Commutative Laws</strong></td>
+            <td>\(A \cup B = B \cup A\)<br>\(A \cap B = B \cap A\)</td>
+          </tr>
+          <tr>
+            <td><strong>Associative Laws</strong></td>
+            <td>\((A \cup B) \cup C = A \cup (B \cup C)\)<br>\((A \cap B) \cap C = A \cap (B \cap C)\)</td>
+          </tr>
+          <tr>
+            <td><strong>Distributive Laws</strong></td>
+            <td>\(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\)<br>\(A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\)</td>
+          </tr>
+          <tr>
+            <td><strong>De Morgan's Laws</strong></td>
+            <td>\((A \cup B)' = A' \cap B'\)<br>\((A \cap B)' = A' \cup B'\)</td>
+          </tr>
+          <tr>
+            <td><strong>Complement Laws</strong></td>
+            <td>\(A \cup A' = U\)<br>\(A \cap A' = \varnothing\)<br>\((A')' = A\)</td>
+          </tr>
+          <tr>
+            <td><strong>Identity Laws</strong></td>
+            <td>\(A \cup \varnothing = A\)<br>\(A \cap U = A\)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 8. Quick Comparison Table -->
+  <div class="card">
+    <h2>8. Comprehensive Operations Reference Table</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Operation</th><th>Set-Theoretic Meaning</th><th>Result from Reference Example</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>\(A \cup B\)</strong></td>
+            <td>Elements in \(A\) OR \(B\) or both</td>
+            <td>\(\{1, 2, 3, 4, 5, 6, 7\}\)</td>
+          </tr>
+          <tr>
+            <td><strong>\(A \cap B\)</strong></td>
+            <td>Elements in BOTH \(A\) and \(B\)</td>
+            <td>\(\{4, 5\}\)</td>
+          </tr>
+          <tr>
+            <td><strong>\(A - B\)</strong></td>
+            <td>Elements in \(A\), but NOT in \(B\)</td>
+            <td>\(\{1, 2, 3\}\)</td>
+          </tr>
+          <tr>
+            <td><strong>\(B - A\)</strong></td>
+            <td>Elements in \(B\), but NOT in \(A\)</td>
+            <td>\(\{6, 7\}\)</td>
+          </tr>
+          <tr>
+            <td><strong>\(A'\)</strong></td>
+            <td>Elements outside \(A\) (in \(U\))</td>
+            <td>\(\{6, 7, 8, 9, 10\}\)</td>
+          </tr>
+          <tr>
+            <td><strong>\(A \triangle B\)</strong></td>
+            <td>Elements in exactly ONE set (not both)</td>
+            <td>\(\{1, 2, 3, 6, 7\}\)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Interactive Quiz (8 Questions) -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. If set A = {1, 2, 3} and set B = {3, 4, 5}, what is the union A ∪ B?",
+      options: [
+        "A. {3}",
+        "B. {1, 2, 3, 4, 5}",
+        "C. {1, 2}",
+        "D. {4, 5}"
+      ],
+      correct: 1,
+      exp: "Correct! The union combines all distinct elements from both sets without duplicate repetitions: {1, 2, 3, 4, 5}."
+    },
+    {
+      q: "Question 2. If set A = {1, 2, 3} and set B = {3, 4, 5}, what is the intersection A ∩ B?",
+      options: [
+        "A. {1, 2, 3, 4, 5}",
+        "B. {1, 2}",
+        "C. {3}",
+        "D. ∅"
+      ],
+      correct: 2,
+      exp: "Correct! The intersection contains only elements common to both sets, which is exclusively {3}."
+    },
+    {
+      q: "Question 3. If A = {1, 2, 3, 4} and B = {3, 4, 5}, what is the set difference A − B?",
+      options: [
+        "A. {3, 4}",
+        "B. {5}",
+        "C. {1, 2}",
+        "D. {1, 2, 5}"
+      ],
+      correct: 2,
+      exp: "Correct! A − B contains elements that are in A but not in B. Removing {3, 4} from A leaves {1, 2}."
+    },
+    {
+      q: "Question 4. If A = {1, 2, 3} and B = {3, 4}, what is the set difference B − A?",
+      options: [
+        "A. {1, 2}",
+        "B. {3}",
+        "C. {4}",
+        "D. {1, 2, 4}"
+      ],
+      correct: 2,
+      exp: "Correct! B − A contains elements in B that are not in A. Removing 3 from B leaves {4}."
+    },
+    {
+      q: "Question 5. Given the universal set U = {1, 2, 3, 4, 5, 6} and subset A = {2, 4, 6}, what is the absolute complement A'?",
+      options: [
+        "A. {2, 4, 6}",
+        "B. {1, 3, 5}",
+        "C. {1, 2, 3}",
+        "D. ∅"
+      ],
+      correct: 1,
+      exp: "Correct! The complement A' = U − A consists of all elements in U not in A, which are {1, 3, 5}."
+    },
+    {
+      q: "Question 6. Two sets A and B are defined as disjoint if and only if:",
+      options: [
+        "A. A = B",
+        "B. A ∪ B = ∅",
+        "C. A ∩ B = ∅",
+        "D. A − B = ∅"
+      ],
+      correct: 2,
+      exp: "Correct! Disjoint sets have no members in common; their intersection is the empty set (A ∩ B = ∅)."
+    },
+    {
+      q: "Question 7. Which of the following fundamental set operations is NOT commutative in general?",
+      options: [
+        "A. Set Union (A ∪ B)",
+        "B. Set Intersection (A ∩ B)",
+        "C. Set Difference (A − B)",
+        "D. Symmetric Difference (A △ B)"
+      ],
+      correct: 2,
+      exp: "Correct! Set difference is non-commutative: in general, A − B ≠ B − A."
+    },
+    {
+      q: "Question 8. The symmetric difference A △ B contains elements that belong to:",
+      options: [
+        "A. Only the common intersection region",
+        "B. Exactly one of the two sets (either A or B, but not both)",
+        "C. All elements in both sets including common elements",
+        "D. Only elements situated outside both sets in U"
+      ],
+      correct: 1,
+      exp: "Correct! By definition, A △ B = (A − B) ∪ (B − A) = (A ∪ B) − (A ∩ B), isolating elements belonging to exactly one set."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

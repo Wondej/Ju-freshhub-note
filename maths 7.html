@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Concept of a Set</title>
+  <!-- MathJax for set theory notation -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Images */
+    .img-box {
+      margin: 14px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .img-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      background: #f1f5f9;
+      text-align: center;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .symbol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+    @media (max-width: 480px) {
+      .symbol-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .symbol-card {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .symbol-char {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .symbol-label {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.92rem;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>The Concept of a Set</h1>
+    <p>Well-Defined Collections, Elements, Membership Relations, and Set Notations</p>
+  </header>
+
+  <!-- 1. What is a set? -->
+  <div class="card">
+    <h2>1. What is a Set?</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A <strong>set</strong> is a well-defined collection of distinct objects that share a specified property or rule. The objects belonging to a set are called its <strong>elements</strong> (or <em>members</em>).
+    </div>
+
+    <div class="analogy-box">
+      🏫 <strong>Classroom Illustration:</strong> Imagine a lecture hall of 40 students. If you form a group consisting strictly of <em>"students currently wearing eyeglasses"</em>, that collection forms a set because anyone can verify unambiguously whether a given student wears glasses or not.
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/1s9yvPXnpVi_BKd48zfCqrAs5rJWRcIcn1f-AC4QdT5zEGA4qfBzP9CNeIyJCkyyjefNB5NBGENgIKQvCjlKd_MBvZ4horzqdv_zvWSPIIBeJVEMl1BS9LcF8SbQyFRq_FpCDmHa0HvsIoJeScgOBTbyQqEtrqo3OX-DnDITcqZ2PvealIt08SLKaMmdh22N?purpose=fullsize" alt="Students in Classroom">
+      <div class="img-caption">Well-defined collection: Students in a classroom possessing an identifiable property</div>
+    </div>
+
+    <h3>Mathematical Example:</h3>
+    <p style="text-align: center; font-size: 1.15rem; font-weight: bold;">
+      \[A = \{2, 4, 6, 8, 10\}\]
+    </p>
+    <ul>
+      <li>\(A\) is the <strong>label/name</strong> of the set.</li>
+      <li>\(2, 4, 6, 8, 10\) are the individual <strong>elements</strong> (members) of the set.</li>
+    </ul>
+
+    <h3>What Does "Well-Defined" Mean?</h3>
+    <p>A collection is <strong>well-defined</strong> if there exists an objective criterion that makes it possible to determine conclusively whether any given object belongs to the collection or not.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Collection</th><th>Is it a Set?</th><th>Reasoning</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Even integers less than \(10\)</td>
+            <td><strong style="color: var(--success);">Yes</strong></td>
+            <td>Objective: \(\{2, 4, 6, 8\}\) are clearly identifiable.</td>
+          </tr>
+          <tr>
+            <td>Students taller than \(180\text{ cm}\)</td>
+            <td><strong style="color: var(--success);">Yes</strong></td>
+            <td>Measurable, objective quantitative criterion.</td>
+          </tr>
+          <tr>
+            <td>"Beautiful" students in a class</td>
+            <td><strong style="color: var(--error);">No (Not well-defined)</strong></td>
+            <td>Subjective: beauty depends on personal opinion; no objective rule exists.</td>
+          </tr>
+          <tr>
+            <td>Positive integers</td>
+            <td><strong style="color: var(--success);">Yes</strong></td>
+            <td>Objective: \(\{1, 2, 3, 4, \dots\}\) is clearly defined.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      ⚠️ <strong>Exam Trap:</strong> A set does not need to be small, finite, or simple. It only needs to be <strong>well-defined</strong>. Subjective adjectives like "interesting", "difficult", "clever", or "beautiful" never form sets.
+    </div>
+  </div>
+
+  <!-- 2. Elements and membership symbols -->
+  <div class="card">
+    <h2>2. Elements and Membership Relations</h2>
+    <p>To state whether an object belongs or does not belong to a set, two fundamental relational symbols are used:</p>
+
+    <div class="symbol-grid">
+      <div class="symbol-card">
+        <div class="symbol-char">\(\in\)</div>
+        <div class="symbol-label">Belongs to / Is an element of</div>
+        <p style="margin: 6px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">\(x \in A\) asserts that \(x\) is in set \(A\)</p>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-char">\(\notin\)</div>
+        <div class="symbol-label">Does not belong to / Is not an element of</div>
+        <p style="margin: 6px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">\(x \notin A\) asserts that \(x\) is not in set \(A\)</p>
+      </div>
+    </div>
+
+    <h3>Application:</h3>
+    <p>Let \(A = \{2, 4, 6, 8, 10\}\). Evaluate the following statements:</p>
+    <ul>
+      <li>\(2 \in A\) &nbsp;&rarr;&nbsp; <strong style="color: var(--success);">True</strong> (2 is explicitly listed in \(A\)).</li>
+      <li>\(5 \in A\) &nbsp;&rarr;&nbsp; <strong style="color: var(--error);">False</strong> (5 is not in \(A\)).</li>
+      <li>\(7 \notin A\) &nbsp;&rarr;&nbsp; <strong style="color: var(--success);">True</strong> (7 is indeed not a member of \(A\)).</li>
+    </ul>
+
+    <div class="alert-box">
+      📌 <strong>The Law of Excluded Middle in Set Theory:</strong> For any arbitrary object \(x\) and any given set \(A\), <strong>exactly one</strong> of the following statements is True:
+      \[x \in A \quad \text{or} \quad x \notin A\]
+      They can never be true simultaneously, nor can both be false.
+    </div>
+  </div>
+
+  <!-- 3. Notation conventions -->
+  <div class="card">
+    <h2>3. Set-Theoretic Notations</h2>
+    <p>Standard mathematical conventions govern how sets and their components are written:</p>
+    <ul>
+      <li><strong>Capital Latin letters</strong> denote sets: \(A, B, C, X, Y, Z\).</li>
+      <li><strong>Lowercase Latin letters</strong> denote individual elements: \(a, b, c, x, y, z\).</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <p style="text-align: center; font-size: 1.1rem; font-weight: bold;">
+      \[B = \{a, b, c, d\}\]
+    </p>
+    <p>Here, \(B\) is the set identifier, braces \(\{\dots\}\) enclose the collection, and \(a, b, c, d\) are the elements separated by commas.</p>
+  </div>
+
+  <!-- 4. A tricky distinction: An element can itself be a set! -->
+  <div class="card">
+    <h2>4. A Set as an Element of Another Set (High Yield)</h2>
+    <p>In set theory, an element inside a set can itself be an entire set. Compare the following two sets carefully:</p>
+
+    <div style="text-align: center; font-size: 1.15rem; font-weight: bold; margin: 10px 0;">
+      \[A = \{1, 2, 3\} \quad \text{versus} \quad B = \{1, \{2, 3\}\}\]
+    </div>
+
+    <h3>Analysis of Set \(A\):</h3>
+    <ul>
+      <li>Set \(A\) contains three elements: \(1\), \(2\), and \(3\).</li>
+      <li>The cardinality (number of elements) of \(A\) is \(|A| = 3\).</li>
+    </ul>
+
+    <h3>Analysis of Set \(B\):</h3>
+    <ul>
+      <li>Set \(B\) contains exactly <strong>two elements</strong>:
+        <ol>
+          <li>The number \(1\)</li>
+          <li>The set \(\{2, 3\}\) (treated as a single packaged entity)</li>
+        </ol>
+      </li>
+      <li>The cardinality of \(B\) is \(|B| = 2\).</li>
+    </ul>
+
+    <h3>Truth Value Verification:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Statement</th><th>Truth Value</th><th>Explanation</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>\(2 \in A\)</td>
+            <td><strong style="color: var(--success);">True</strong></td>
+            <td>\(2\) is an individual element of \(A\).</td>
+          </tr>
+          <tr>
+            <td>\(2 \in B\)</td>
+            <td><strong style="color: var(--error);">False</strong></td>
+            <td>\(2\) is NOT an element of \(B\); only the set \(\{2, 3\}\) is an element.</td>
+          </tr>
+          <tr>
+            <td>\(2 \notin B\)</td>
+            <td><strong style="color: var(--success);">True</strong></td>
+            <td>Correct, because \(2\) is not listed on the outer tier of \(B\).</td>
+          </tr>
+          <tr>
+            <td>\(\{2, 3\} \in B\)</td>
+            <td><strong style="color: var(--success);">True</strong></td>
+            <td>The whole subset \(\{2, 3\}\) is directly an element of \(B\).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. Summary -->
+  <div class="card">
+    <h2>5. Summary Review</h2>
+    <ul>
+      <li>A <strong>set</strong> is a well-defined collection of distinct objects.</li>
+      <li>Objects contained within a set are called <strong>elements</strong> or members.</li>
+      <li>Uppercase letters denote sets (\(A, B\)); lowercase letters denote elements (\(x, y\)).</li>
+      <li>\(\in\) indicates membership ("belongs to"); \(\notin\) indicates non-membership ("does not belong to").</li>
+      <li>An entire set can act as a single element inside another set (e.g., in \(\{1, \{2, 3\}\}\)).</li>
+    </ul>
+  </div>
+
+  <!-- Interactive Quiz (6 Questions) -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. Which of the following collections represents a mathematically well-defined set?",
+      options: [
+        "A. The collection of all beautiful people in a city",
+        "B. The collection of intelligent university students",
+        "C. The collection of positive integers less than 6",
+        "D. The collection of interesting novels"
+      ],
+      correct: 2,
+      exp: "Correct! 'Positive integers less than 6' ({1, 2, 3, 4, 5}) is based on an unambiguous mathematical rule. 'Beautiful', 'intelligent', and 'interesting' are subjective terms."
+    },
+    {
+      q: "Question 2. Given the set A = {2, 4, 6, 8}, which of the following statements is TRUE?",
+      options: [
+        "A. 3 ∈ A",
+        "B. 4 ∉ A",
+        "C. 6 ∈ A",
+        "D. 8 ∉ A"
+      ],
+      correct: 2,
+      exp: "Correct! 6 is an element of set A, so 6 ∈ A is True. (3 is not in A, 4 is in A, and 8 is in A)."
+    },
+    {
+      q: "Question 3. Which mathematical symbol represents the relation 'is not an element of'?",
+      options: [
+        "A. ∈",
+        "B. ∉",
+        "C. ⊆",
+        "D. ="
+      ],
+      correct: 1,
+      exp: "Correct! The symbol ∉ denotes non-membership ('does not belong to' or 'is not an element of')."
+    },
+    {
+      q: "Question 4. If set B is defined as B = {1, {2, 3}}, how many elements are contained in B?",
+      options: [
+        "A. 1 element",
+        "B. 2 elements",
+        "C. 3 elements",
+        "D. 4 elements"
+      ],
+      correct: 1,
+      exp: "Correct! Set B contains exactly two elements: the number 1, and the set {2, 3} treated as a single element."
+    },
+    {
+      q: "Question 5. Given set A = {a, b, c}, which of the following expressions is syntactically and logically correct?",
+      options: [
+        "A. A is an element of a",
+        "B. a ∈ A",
+        "C. A ∈ b",
+        "D. c ∉ A"
+      ],
+      correct: 1,
+      exp: "Correct! The lowercase letter a is an element of the uppercase set A, represented as a ∈ A."
+    },
+    {
+      q: "Question 6. For any arbitrary mathematical object x and any set A, which statement is universally guaranteed to be true?",
+      options: [
+        "A. x ∈ A and x ∉ A",
+        "B. x ∈ A or x ∉ A, but not both",
+        "C. Every object x belongs to set A",
+        "D. No object x belongs to set A"
+      ],
+      correct: 1,
+      exp: "Correct! By the fundamental principle of set membership, exactly one of the two statements (x ∈ A or x ∉ A) must be True."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

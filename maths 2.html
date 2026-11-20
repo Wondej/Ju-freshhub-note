@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Five Logical Connectives</title>
+  <!-- MathJax for mathematical symbols and truth tables -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Truth Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+    th, td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .tt-t {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .tt-f {
+      color: var(--error);
+      font-weight: bold;
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>The Five Logical Connectives</h1>
+    <p>Compound Propositions, Truth Tables, and Logical Operators</p>
+  </header>
+
+  <!-- Intro Card -->
+  <div class="card">
+    <p>In propositional logic, simple statements can be modified or connected using <strong>logical connectives (operators)</strong> to construct <strong>compound propositions</strong>.</p>
+    
+    <div class="analogy-box">
+      🔢 <strong>Mathematical Operator Analogy:</strong> Just as arithmetic operators (\(+\), \(-\), \(\times\)) act on numbers to produce new numerical values, logical connectives act on truth values of propositions to generate new propositions.
+    </div>
+
+    <p>Consider two atomic propositions:</p>
+    <ul>
+      <li>\(p\): <em>Jimma is in Ethiopia.</em> (True)</li>
+      <li>\(q\): <em>Addis Ababa is the capital of Ethiopia.</em> (True)</li>
+    </ul>
+    <p>There are five fundamental logical connectives used to manipulate these statements.</p>
+  </div>
+
+  <!-- 1. Negation -->
+  <div class="card">
+    <h2>1. Negation (NOT)</h2>
+    <p>The negation of a proposition \(p\), denoted by \(\neg p\) (or \(\sim p\)), reverses the original truth value of the proposition.</p>
+
+    <h3>Example:</h3>
+    <ul>
+      <li>\(p\): <em>\(2\) is an even number.</em> (True)</li>
+      <li>\(\neg p\): <em>\(2\) is NOT an even number.</em> (False)</li>
+    </ul>
+
+    <h3>Truth Table for Negation:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(\neg p\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      💡 <strong>Memory Rule:</strong> \(\neg p\) always yields the exact opposite truth value of \(p\).
+    </div>
+  </div>
+
+  <!-- 2. Conjunction -->
+  <div class="card">
+    <h2>2. Conjunction (AND)</h2>
+    <p>The conjunction of propositions \(p\) and \(q\), denoted by \(p \land q\), is the compound proposition formed by connecting them with <strong>AND</strong>.</p>
+
+    <h3>Example:</h3>
+    <ul>
+      <li>\(p\): <em>\(4\) is even.</em> (T)</li>
+      <li>\(q\): <em>\(5\) is odd.</em> (T)</li>
+      <li>\(p \land q\): <em>\(4\) is even AND \(5\) is odd.</em> (T)</li>
+    </ul>
+
+    <div class="definition-box">
+      📌 <strong>The Conjunction Rule:</strong> \(p \land q\) is <strong>TRUE only when BOTH \(p\) and \(q\) are TRUE</strong>. In all other cases, it is False.
+    </div>
+
+    <h3>Truth Table for Conjunction:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(p \land q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="analogy-box">
+      🎓 <strong>Academic Analogy:</strong> Suppose passing a pre-medical entrance examination requires passing Biology <strong>AND</strong> Chemistry. If a candidate fails either one (or both), the requirement is not met.
+    </div>
+  </div>
+
+  <!-- 3. Disjunction -->
+  <div class="card">
+    <h2>3. Disjunction (OR)</h2>
+    <p>The disjunction of propositions \(p\) and \(q\), denoted by \(p \lor q\), is the compound proposition formed by connecting them with <strong>OR</strong>.</p>
+
+    <h3>Example:</h3>
+    <ul>
+      <li>\(p\): <em>\(4\) is even.</em> (T)</li>
+      <li>\(q\): <em>\(5\) is even.</em> (F)</li>
+      <li>\(p \lor q\): <em>\(4\) is even OR \(5\) is even.</em> (T)</li>
+    </ul>
+
+    <div class="definition-box">
+      📌 <strong>The Disjunction Rule:</strong> \(p \lor q\) is <strong>FALSE only when BOTH \(p\) and \(q\) are FALSE</strong>. If at least one statement is true, the compound proposition is True.
+    </div>
+
+    <h3>Truth Table for Disjunction:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(p \lor q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      ⚠️ <strong>Inclusive OR vs. Exclusive OR:</strong> In formal mathematical logic, the connective "OR" (\(\lor\)) is <strong>inclusive</strong>. This means \(p \lor q\) is True when \(p\) is true, when \(q\) is true, and also when <strong>both</strong> are true simultaneously.
+    </div>
+  </div>
+
+  <!-- 4. Implication -->
+  <div class="card">
+    <h2>4. Implication / Conditional (IF... THEN)</h2>
+    <p>The conditional statement (implication), denoted by \(p \to q\) (or \(p \implies q\)), represents the statement: <strong>"If \(p\), then \(q\)"</strong>.</p>
+    <ul>
+      <li>\(p\) is called the <strong>hypothesis</strong> (or <em>antecedent</em> / <em>premise</em>).</li>
+      <li>\(q\) is called the <strong>conclusion</strong> (or <em>consequent</em>).</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <p><em>"If a number is divisible by \(4\), then it is even."</em></p>
+    <ul>
+      <li>\(p\): A number is divisible by \(4\).</li>
+      <li>\(q\): It is even.</li>
+    </ul>
+
+    <div class="definition-box">
+      📌 <strong>The Implication Rule:</strong> \(p \to q\) is <strong>FALSE in exactly one case: when \(p\) is TRUE and \(q\) is FALSE</strong> (\(\text{T} \to \text{F}\)). In all other three cases, it evaluates to <strong>True</strong>.
+    </div>
+
+    <h3>Truth Table for Implication:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(p \to q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-t">T</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="analogy-box">
+      🤝 <strong>The Broken Promise Analogy:</strong><br>
+      A father promises his son: <em>"If you pass the university entrance exam (\(p\)), then I will buy you a smartphone (\(q\))."</em><br><br>
+      • <strong>T &rarr; T:</strong> The son passes; the father buys the phone &rarr; Promise kept (<span class="tt-t">True</span>).<br>
+      • <strong>T &rarr; F:</strong> The son passes; the father fails to buy the phone &rarr; <strong>Promise broken (<span class="tt-f">False</span>)</strong>.<br>
+      • <strong>F &rarr; T:</strong> The son does not pass; the father buys the phone anyway &rarr; Promise not broken (<span class="tt-t">True</span>).<br>
+      • <strong>F &rarr; F:</strong> The son does not pass; the father does not buy the phone &rarr; Promise not broken (<span class="tt-t">True</span>).
+    </div>
+
+    <h3>Alternative Linguistic Expressions for \(p \to q\):</h3>
+    <ul>
+      <li>"If \(p\), then \(q\)"</li>
+      <li>"\(p\) implies \(q\)"</li>
+      <li>"\(p\) is <strong>sufficient</strong> for \(q\)"</li>
+      <li>"\(q\) is <strong>necessary</strong> for \(p\)"</li>
+      <li>"\(p\) only if \(q\)"</li>
+      <li>"\(q\) if \(p\)"</li>
+    </ul>
+  </div>
+
+  <!-- 5. Bi-implication -->
+  <div class="card">
+    <h2>5. Bi-implication / Biconditional (IF AND ONLY IF)</h2>
+    <p>The bi-implication, denoted by \(p \leftrightarrow q\) (or \(p \iff q\)), represents: <strong>"\(p\) if and only if \(q\)"</strong> (abbreviated as "\(p\) iff \(q\)").</p>
+
+    <div class="definition-box">
+      📌 <strong>The Bi-implication Rule:</strong> \(p \leftrightarrow q\) is <strong>TRUE when both \(p\) and \(q\) have the SAME truth value</strong> (both True or both False). It is False when they have opposite truth values.
+    </div>
+
+    <h3>Truth Table for Bi-implication:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(p \leftrightarrow q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-t">T</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Example:</h3>
+    <ul>
+      <li>\(p\): <em>\(3\) is odd.</em> (T)</li>
+      <li>\(q\): <em>\(2\) is prime.</em> (T)</li>
+      <li>Since both propositions are True, \(p \leftrightarrow q\) is <span class="tt-t">True</span>.</li>
+    </ul>
+  </div>
+
+  <!-- 6. Summary Table -->
+  <div class="card">
+    <h2>6. Summary of the Five Connectives</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Connective</th><th>Name</th><th>Symbol</th><th>When is it TRUE?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>NOT</strong></td>
+            <td>Negation</td>
+            <td>\(\neg p\)</td>
+            <td>When \(p\) is <strong>False</strong></td>
+          </tr>
+          <tr>
+            <td><strong>AND</strong></td>
+            <td>Conjunction</td>
+            <td>\(p \land q\)</td>
+            <td>When <strong>both</strong> \(p\) and \(q\) are <strong>True</strong></td>
+          </tr>
+          <tr>
+            <td><strong>OR</strong></td>
+            <td>Disjunction</td>
+            <td>\(p \lor q\)</td>
+            <td>When <strong>at least one</strong> of \(p\) or \(q\) is <strong>True</strong></td>
+          </tr>
+          <tr>
+            <td><strong>IF... THEN</strong></td>
+            <td>Implication</td>
+            <td>\(p \to q\)</td>
+            <td>Always <strong>except</strong> when \(\text{T} \to \text{F}\)</td>
+          </tr>
+          <tr>
+            <td><strong>IFF</strong></td>
+            <td>Bi-implication</td>
+            <td>\(p \leftrightarrow q\)</td>
+            <td>When \(p\) and \(q\) have the <strong>same truth value</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Interactive Quiz -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. If proposition p is FALSE, what is the truth value of ¬p?",
+      options: [
+        "A. True",
+        "B. False",
+        "C. Cannot be determined",
+        "D. Both true and false"
+      ],
+      correct: 0,
+      exp: "Correct! Negation inverts the truth value: ¬F = True."
+    },
+    {
+      q: "Question 2. Under what condition is the conjunction p ∧ q FALSE?",
+      options: [
+        "A. Only when both p and q are true",
+        "B. When at least one of p or q is false",
+        "C. Only when both p and q are false",
+        "D. Only when p is true"
+      ],
+      correct: 1,
+      exp: "Correct! Conjunction requires both components to be true; if either p or q is false, p ∧ q evaluates to False."
+    },
+    {
+      q: "Question 3. In formal propositional logic, when does the disjunction p ∨ q evaluate to FALSE?",
+      options: [
+        "A. When both p and q are true",
+        "B. When p is true and q is false",
+        "C. When both p and q are false",
+        "D. Whenever either one is true"
+      ],
+      correct: 2,
+      exp: "Correct! Inclusive disjunction is false only when both constituent propositions are False (F ∨ F = False)."
+    },
+    {
+      q: "Question 4. Which truth assignment makes the conditional implication p → q FALSE?",
+      options: [
+        "A. T → T",
+        "B. T → F",
+        "C. F → T",
+        "D. F → F"
+      ],
+      correct: 1,
+      exp: "Correct! An implication is false in exactly one scenario: when the antecedent (hypothesis) is True and the consequent (conclusion) is False (T → F = False)."
+    },
+    {
+      q: "Question 5. If p is FALSE and q is FALSE, what is the truth value of the bi-implication p ↔ q?",
+      options: [
+        "A. True",
+        "B. False",
+        "C. Cannot be determined",
+        "D. Neither"
+      ],
+      correct: 0,
+      exp: "Correct! Bi-implication evaluates to True whenever both components share identical truth values (F ↔ F = True)."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

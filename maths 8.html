@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Description and Relationships of Sets</title>
+  <!-- MathJax for mathematical notation and set theory -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Images */
+    .img-box {
+      margin: 14px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .img-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      background: #f1f5f9;
+      text-align: center;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 12px 0;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Description and Relationships of Sets</h1>
+    <p>Methods of Describing Sets, Set Classification, Subsets, and Power Sets</p>
+  </header>
+
+  <!-- PART 1: FOUR METHODS OF DESCRIBING SETS -->
+  <div class="card">
+    <h2>PART 1: Four Methods of Describing Sets</h2>
+    <p>There are four distinct mathematical methods used to describe and specify sets:</p>
+
+    <h3>1. Verbal Method (Statement Form)</h3>
+    <p>A set is described using a clear descriptive sentence in ordinary language.</p>
+    <ul>
+      <li><em>"The set of counting numbers less than \(6\)."</em> &rarr; Defines \(A = \{1, 2, 3, 4, 5\}\).</li>
+      <li><em>"The set of vowels in the English alphabet."</em> &rarr; Defines \(V = \{a, e, i, o, u\}\).</li>
+      <li><em>"The set of countries in Africa."</em></li>
+      <li><em>"The set of positive even numbers less than \(12\)."</em></li>
+    </ul>
+
+    <h3>2. Roster (Complete Listing) Method</h3>
+    <p>Every individual element of the set is explicitly listed inside curly brackets \(\{\dots\}\), separated by commas.</p>
+    <p style="text-align: center; font-size: 1.05rem; font-weight: bold;">
+      \[A = \{1, 2, 3, 4, 5\} \quad \text{and} \quad B = \{1, 2, 3, 4, 6, 12\}\]
+    </p>
+
+    <div class="alert-box">
+      ⚠️ <strong>Three Fundamental Rules of the Roster Method:</strong>
+      <ol>
+        <li>Every member must be included in the listing.</li>
+        <li><strong>No repetition:</strong> Writing an element multiple times does not change the set: \(\{1, 1, 2, 2, 3\} = \{1, 2, 3\}\).</li>
+        <li><strong>Order does not matter:</strong> Rearranging elements leaves the set identical: \(\{1, 2, 3\} = \{3, 2, 1\}\).</li>
+      </ol>
+    </div>
+
+    <h3>3. Partial Listing Method</h3>
+    <p>Used when a set contains too many elements to list completely, or infinitely many elements that follow a distinct, established pattern. An ellipsis (three dots: \(\dots\)) is used to indicate continuation.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Description</th><th>Partial Listing Notation</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Counting numbers (Natural numbers)</td>
+            <td>\(\{1, 2, 3, 4, 5, \dots\}\)</td>
+          </tr>
+          <tr>
+            <td>Non-positive integers</td>
+            <td>\(\{\dots, -3, -2, -1, 0\}\)</td>
+          </tr>
+          <tr>
+            <td>Positive multiples of \(5\)</td>
+            <td>\(\{5, 10, 15, 20, \dots\}\)</td>
+          </tr>
+          <tr>
+            <td>Positive odd integers less than \(100\)</td>
+            <td>\(\{1, 3, 5, \dots, 97, 99\}\)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4. Set-Builder Method</h3>
+    <p>Instead of listing elements, a variable and a characterizing predicate (condition) that uniquely describes all members are stated.</p>
+    <p style="text-align: center; font-size: 1.05rem; font-weight: bold;">
+      \[A = \{x \mid x \text{ is an even positive integer less than } 10\}\]
+    </p>
+    <p><em>Read as:</em> "The set of all \(x\) <strong>such that</strong> (\(\mid\)) \(x\) is an even positive integer less than \(10\)."</p>
+    <p>Evaluating this yields: \(A = \{2, 4, 6, 8\}\). (Note: A colon \(:\) can be used interchangeably with the vertical bar \(\mid\)).</p>
+    <p><em>Another example:</em> \(B = \{x \in \mathbb{N} \mid x < 5\} = \{1, 2, 3, 4\}\).</p>
+
+    <h3>Comparison of All Four Methods:</h3>
+    <p>Describing the set of positive even integers less than \(10\):</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>Representation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Verbal</strong></td><td>The positive even integers less than \(10\).</td></tr>
+          <tr><td><strong>Roster</strong></td><td>\(\{2, 4, 6, 8\}\)</td></tr>
+          <tr><td><strong>Partial Listing</strong></td><td>Not needed (the set is small and finite).</td></tr>
+          <tr><td><strong>Set-Builder</strong></td><td>\(\{x \mid x \text{ is an even integer and } 0 < x < 10\}\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PART 2: EMPTY, FINITE, AND INFINITE SETS -->
+  <div class="card">
+    <h2>PART 2: Empty, Finite, and Infinite Sets</h2>
+
+    <h3>5. Empty Set (Null Set)</h3>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A set containing no elements at all is called the <strong>empty set</strong> (or <em>null set</em>). It is symbolized by:
+      \[\varnothing \quad \text{or} \quad \{\}\]
+    </div>
+
+    <p><em>Example:</em> \(A = \{x \in \mathbb{N} \mid x < 0\}\). Since no natural number is negative, \(A = \varnothing\).</p>
+
+    <div class="alert-box">
+      ⚠️ <strong>Vital Exam Distinction:</strong>
+      \[\varnothing \neq \{\varnothing\}\]
+      • \(\varnothing\) has <strong>zero elements</strong> (empty).<br>
+      • \(\{\varnothing\}\) is a non-empty set with <strong>one element</strong>: namely, the empty set itself.
+    </div>
+
+    <h3>6. Finite vs. Infinite Sets</h3>
+    <ul>
+      <li><strong>Finite Set:</strong> A set whose elements can be completely counted and matched with \(\{1, 2, \dots, n\}\) for some integer \(n \ge 0\).<br>
+      <em>Example:</em> \(A = \{1, 2, 3, 4\}\) (Cardinality \(|A| = 4\)).</li>
+      <li><strong>Infinite Set:</strong> A set with an unlimited number of elements whose counting process never terminates.<br>
+      <em>Example:</em> \(\mathbb{N} = \{1, 2, 3, 4, \dots\}\) (The counting numbers continue indefinitely).</li>
+    </ul>
+  </div>
+
+  <!-- PART 3: RELATIONSHIPS BETWEEN TWO SETS -->
+  <div class="card">
+    <h2>PART 3: Relationships Between Sets</h2>
+
+    <h3>7. Subsets</h3>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> Set \(A\) is a <strong>subset</strong> of set \(B\), denoted by \(A \subseteq B\), if and only if every element of \(A\) is also an element of \(B\):
+      \[A \subseteq B \iff \forall x \, (x \in A \to x \in B)\]
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/7WORqQCK54egGc1Rz-iQjYrlc7qeL8FrVQueSMxy45gqzAExCQliJPKe_m2XTflR9L71aJ8Sth_RYIjJT1u6ZPVYOsSsa2OW38uHiCovDQsYRWpc9LgsA8chTTwRxYyNcNDKN15ekDe7-K0sz6VtkfdIVovmIXcdSGsNcDFgceJqUVcqww174ddwO2pp4Meb?purpose=fullsize" alt="Subset Venn Diagram">
+      <div class="img-caption">Venn Diagram: Region A is completely contained inside Region B (\(A \subseteq B\))</div>
+    </div>
+
+    <p><em>Example:</em> Let \(A = \{1, 2\}\) and \(B = \{1, 2, 3, 4\}\). Here, \(A \subseteq B\), but \(B \not\subseteq A\) (since \(3, 4 \in B\) but \(3, 4 \notin A\)).</p>
+
+    <div class="alert-box">
+      ⭐ <strong>Universal Subset Theorems:</strong> For any arbitrary set \(A\):<br>
+      1. \(\varnothing \subseteq A\) &nbsp;(The empty set is a subset of every set).<br>
+      2. \(A \subseteq A\) &nbsp;(Every set is a subset of itself — reflexivity).
+    </div>
+
+    <h3>8. Equal Sets</h3>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> Two sets \(A\) and \(B\) are <strong>equal</strong> (\(A = B\)) if and only if they contain precisely the same elements. Symbolically:
+      \[A = B \iff (A \subseteq B \land B \subseteq A)\]
+    </div>
+    <p><em>Example:</em> \(A = \{1, 2, 3\}\) and \(B = \{3, 2, 1, 1\}\). Since order and repetition are irrelevant, \(A = B\).</p>
+
+    <h3>9. Equivalent Sets</h3>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> Two sets \(A\) and \(B\) are <strong>equivalent</strong> (denoted \(A \sim B\)) if there exists a <strong>one-to-one correspondence</strong> (bijection) between their elements. For finite sets, this means they have the exact same number of elements (\(|A| = |B|\)).
+    </div>
+
+    <p><em>Example:</em> \(A = \{a, b, c\}\) and \(B = \{1, 2, 3\}\). We can match \(a \leftrightarrow 1\), \(b \leftrightarrow 2\), and \(c \leftrightarrow 3\). Thus, \(A \sim B\).</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Relationship</th><th>Defining Criterion</th><th>Illustrative Example</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Equal Sets (\(A = B\))</strong></td>
+            <td>Identical elements</td>
+            <td>\(\{1, 2\} = \{2, 1\}\)</td>
+          </tr>
+          <tr>
+            <td><strong>Equivalent Sets (\(A \sim B\))</strong></td>
+            <td>Identical number of elements (\(|A| = |B|\))</td>
+            <td>\(\{a, b\} \sim \{1, 2\}\)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert-box">
+      📌 <strong>Rule:</strong> Equal sets are always equivalent. However, equivalent sets are <strong>not necessarily equal</strong>!
+    </div>
+
+    <h3>10. Proper Subset</h3>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A set \(A\) is a <strong>proper subset</strong> of \(B\), denoted by \(A \subset B\), if \(A \subseteq B\) and \(A \neq B\) (that is, every element of \(A\) is in \(B\), and \(B\) contains at least one element not in \(A\)).
+    </div>
+    <p><em>Example:</em> Let \(A = \{1, 2\}\) and \(B = \{1, 2, 3\}\). Then \(A \subset B\). But \(A \not\subset A\) because a set cannot be a proper subset of itself.</p>
+  </div>
+
+  <!-- PART 4: POWER SETS -->
+  <div class="card">
+    <h2>PART 4: Power Sets</h2>
+
+    <h3>11. What is a Power Set?</h3>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>power set</strong> of a set \(A\), denoted by \(\mathcal{P}(A)\), is the set of all subsets of \(A\):
+      \[\mathcal{P}(A) = \{X \mid X \subseteq A\}\]
+    </div>
+
+    <p>Let \(A = \{1, 2\}\). Listing all possible subsets:</p>
+    <ul>
+      <li>Subset with 0 elements: \(\varnothing\)</li>
+      <li>Subsets with 1 element: \(\{1\}, \{2\}\)</li>
+      <li>Subset with 2 elements: \(\{1, 2\}\)</li>
+    </ul>
+    <div class="formula-box">
+      \(\mathcal{P}(A) = \{\varnothing, \{1\}, \{2\}, \{1, 2\}\}\)
+    </div>
+
+    <div class="img-box">
+      <img src="https://images.openai.com/static-rsc-4/cs-E1xFTu6RFsR99yDP1xMhU4REZJEy7JMHidGVHGiaiho8YTbxhiaw7opuZ5FRFB3lUrgB9__dG6TuxhK99n2r6O9rENO12I6DPlm20knpq-qddD3oNbJZGND5pJ9dKjDHzYeYiSTyjvp9v5iewubxwIe7_pwQk6mwptM_HkVCrE4EUJf2rkDILJNRWtuvI?purpose=fullsize" alt="Power Set Elements">
+      <div class="img-caption">Power set structure: Every member of \(\mathcal{P}(A)\) is itself a subset of \(A\)</div>
+    </div>
+
+    <h3>12. The Power-Set Counting Formulas</h3>
+    <p>For any finite set \(A\) containing \(n\) elements (i.e., \(|A| = n\)):</p>
+    <div class="formula-box">
+      \[\text{Total number of subsets} = 2^n\]
+      \[\text{Total number of proper subsets} = 2^n - 1\]
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Number of Elements (\(n\))</th><th>Total Subsets (\(2^n\))</th><th>Proper Subsets (\(2^n - 1\))</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(0\) (\(\varnothing\))</td><td>\(2^0 = 1\)</td><td>\(0\)</td></tr>
+          <tr><td>\(1\)</td><td>\(2^1 = 2\)</td><td>\(1\)</td></tr>
+          <tr><td>\(2\)</td><td>\(2^2 = 4\)</td><td>\(3\)</td></tr>
+          <tr><td>\(3\)</td><td>\(2^3 = 8\)</td><td>\(7\)</td></tr>
+          <tr><td>\(4\)</td><td>\(2^4 = 16\)</td><td>\(15\)</td></tr>
+          <tr><td>\(5\)</td><td>\(2^5 = 32\)</td><td>\(31\)</td></tr>
+          <tr><td>\(6\)</td><td>\(2^6 = 64\)</td><td>\(63\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="step-box">
+      <strong>Exam Problem Solving:</strong><br>
+      • <em>If a set has 64 subsets, find its cardinality:</em><br>
+      \(2^n = 64 = 2^6 \implies \mathbf{n = 6}\).<br><br>
+      • <em>If a set has 31 proper subsets, find its cardinality:</em><br>
+      \(2^n - 1 = 31 \implies 2^n = 32 = 2^5 \implies \mathbf{n = 5}\).
+    </div>
+  </div>
+
+  <!-- PART 5: UNIVERSAL SET -->
+  <div class="card">
+    <h2>PART 5: Universal Set</h2>
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> The <strong>universal set</strong> (denoted by \(U\)) is the fixed encompassing set that contains all elements under consideration in a specific mathematical context. All other sets in that discussion are subsets of \(U\).
+    </div>
+    <p><em>Example:</em> If we discuss integers from \(1\) to \(10\), then \(U = \{1, 2, 3, \dots, 10\}\). Then \(A = \{2, 4, 6, 8, 10\}\) is naturally a subset of \(U\).</p>
+  </div>
+
+  <!-- PART 6: QUICK REVISION TABLE -->
+  <div class="card">
+    <h2>Summary Examination Clues</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Question Clue</th><th>Set Concept</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>"List all elements inside braces"</td><td><strong>Roster method</strong></td></tr>
+          <tr><td>"Three dots (\(\dots\)) pattern"</td><td><strong>Partial listing method</strong></td></tr>
+          <tr><td>"Such that bar (\(\mid\)) or colon"</td><td><strong>Set-builder method</strong></td></tr>
+          <tr><td>"Zero elements"</td><td><strong>Empty set (\(\varnothing\))</strong></td></tr>
+          <tr><td>"Every element of A is in B"</td><td><strong>Subset (\(A \subseteq B\))</strong></td></tr>
+          <tr><td>"Exact same elements"</td><td><strong>Equal sets (\(A = B\))</strong></td></tr>
+          <tr><td>"Exact same number of elements"</td><td><strong>Equivalent sets (\(A \sim B\))</strong></td></tr>
+          <tr><td>"Subset but strictly not equal"</td><td><strong>Proper subset (\(A \subset B\))</strong></td></tr>
+          <tr><td>"Set containing all subsets"</td><td><strong>Power set (\(\mathcal{P}(A)\))</strong></td></tr>
+          <tr><td>"All elements under consideration"</td><td><strong>Universal set (\(U\))</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Interactive Quiz (10 Questions) -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. Which method specifies a set by using a descriptive sentence in ordinary language?",
+      options: [
+        "A. Roster method",
+        "B. Verbal method",
+        "C. Set-builder method",
+        "D. Partial listing method"
+      ],
+      correct: 1,
+      exp: "Correct! The verbal method states the common property of the set using ordinary descriptive language."
+    },
+    {
+      q: "Question 2. What is the correct roster representation of the set of positive factors of 12?",
+      options: [
+        "A. {1, 2, 3, 4, 6, 12}",
+        "B. {2, 4, 6, 8, 10}",
+        "C. {1, 3, 5, 7, 9}",
+        "D. {12, 24, 36, ...}"
+      ],
+      correct: 0,
+      exp: "Correct! The positive integers that divide 12 without a remainder are 1, 2, 3, 4, 6, and 12."
+    },
+    {
+      q: "Question 3. What does the vertical bar symbol '|' represent in set-builder notation {x | P(x)}?",
+      options: [
+        "A. Belongs to",
+        "B. Is not equal to",
+        "C. Such that",
+        "D. Is a subset of"
+      ],
+      correct: 2,
+      exp: "Correct! In set-builder notation, the vertical bar '|' (or colon ':') is read as 'such that'."
+    },
+    {
+      q: "Question 4. Which of the following statements is universally TRUE for any arbitrary set A?",
+      options: [
+        "A. A ⊂ A",
+        "B. ∅ ⊆ A",
+        "C. A ∈ ∅",
+        "D. A = ∅"
+      ],
+      correct: 1,
+      exp: "Correct! The empty set is a subset of every set (∅ ⊆ A). Notice that A ⊂ A is false because no set is a proper subset of itself."
+    },
+    {
+      q: "Question 5. If A = {1, 2, 3} and B = {3, 2, 1, 1}, which statement is mathematically correct?",
+      options: [
+        "A. A and B are different sets",
+        "B. A is a proper subset of B",
+        "C. A = B",
+        "D. A and B are disjoint"
+      ],
+      correct: 2,
+      exp: "Correct! In sets, element repetition and ordering do not matter. B contains distinct elements {1, 2, 3}, exactly identical to A."
+    },
+    {
+      q: "Question 6. If A = {a, b, c} and B = {1, 2, 3}, then sets A and B are best classified as:",
+      options: [
+        "A. Equal sets only",
+        "B. Equivalent sets",
+        "C. Disjoint only",
+        "D. Proper subsets of each other"
+      ],
+      correct: 1,
+      exp: "Correct! Both sets have cardinality 3 (|A| = |B| = 3), meaning there is a one-to-one correspondence between them, making them equivalent."
+    },
+    {
+      q: "Question 7. If A = {1, 2} and B = {1, 2, 3}, which relation correctly describes their connection?",
+      options: [
+        "A. A is a proper subset of B (A ⊂ B)",
+        "B. B is a proper subset of A (B ⊂ A)",
+        "C. A = B",
+        "D. A is not a subset of B"
+      ],
+      correct: 0,
+      exp: "Correct! Every element of A is in B, and B contains the additional element 3. Thus, A is a proper subset of B (A ⊂ B)."
+    },
+    {
+      q: "Question 8. How many total subsets can be formed from a set containing 5 elements?",
+      options: [
+        "A. 10",
+        "B. 16",
+        "C. 25",
+        "D. 32"
+      ],
+      correct: 3,
+      exp: "Correct! The number of subsets is given by 2ⁿ. For n = 5, 2⁵ = 32."
+    },
+    {
+      q: "Question 9. How many PROPER subsets does a set containing 4 elements have?",
+      options: [
+        "A. 16",
+        "B. 15",
+        "C. 8",
+        "D. 7"
+      ],
+      correct: 1,
+      exp: "Correct! The number of proper subsets is 2ⁿ - 1. For n = 4, 2⁴ - 1 = 16 - 1 = 15."
+    },
+    {
+      q: "Question 10. A finite set possesses exactly 63 proper subsets. How many elements does the set contain?",
+      options: [
+        "A. 5 elements",
+        "B. 6 elements",
+        "C. 7 elements",
+        "D. 8 elements"
+      ],
+      correct: 1,
+      exp: "Correct! Proper subsets = 2ⁿ - 1 = 63 ⇒ 2ⁿ = 64. Since 64 = 2⁶, the number of elements is n = 6."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Propositions and Logical Equivalence</title>
+  <!-- MathJax for mathematical notation and equations -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    th, td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .tt-t {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .tt-f {
+      color: var(--error);
+      font-weight: bold;
+    }
+
+    /* Boxes */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .step-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-family: inherit;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Compound Propositions and Logical Equivalence</h1>
+    <p>Truth Tables, Conditional Variations, and Fundamental Logical Laws</p>
+  </header>
+
+  <!-- 1. What is a compound proposition? -->
+  <div class="card">
+    <h2>1. What is a Compound Proposition?</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A <strong>compound proposition</strong> is a proposition formed by combining two or more simple (atomic) propositions using one or more logical connectives.
+    </div>
+
+    <p>Consider three atomic propositions:</p>
+    <ul>
+      <li>\(p\): <em>\(4\) is an even number.</em> (\(\text{True}\))</li>
+      <li>\(q\): <em>\(7\) is a prime number.</em> (\(\text{True}\))</li>
+      <li>\(r\): <em>\(10\) is an odd number.</em> (\(\text{False}\))</li>
+    </ul>
+
+    <p>Now evaluate the compound expression:</p>
+    <p style="text-align: center; font-size: 1.1rem; font-weight: bold;">\((p \land q) \to r\)</p>
+    <p><em>Read as:</em> "If \(4\) is even AND \(7\) is prime, THEN \(10\) is odd."</p>
+
+    <div class="step-box">
+      <strong>Step-by-Step Evaluation:</strong><br>
+      • <strong>Step 1:</strong> Evaluate inside the parentheses: \(p \land q = \text{T} \land \text{T} = \text{T}\)<br>
+      • <strong>Step 2:</strong> Substitute the truth value: \(\text{T} \to r \implies \text{T} \to \text{F}\)<br>
+      • <strong>Step 3:</strong> Apply the implication rule (\(\text{T} \to \text{F}\) is False):<br>
+      <div style="text-align: center; margin-top: 6px;">
+        \(\mathbf{(p \land q) \to r = \text{False}}\)
+      </div>
+    </div>
+
+    <div class="alert-box">
+      💡 <strong>Problem-Solving Rule:</strong> Never attempt to evaluate a multi-operator compound expression in a single step. Isolate components inside parentheses first, evaluate intermediate steps, and combine outward.
+    </div>
+  </div>
+
+  <!-- 2. How to construct a truth table -->
+  <div class="card">
+    <h2>2. Construction of Truth Tables</h2>
+    <p>A truth table enumerates every possible combination of truth values for constituent atomic variables:</p>
+    <ul>
+      <li>\(1\) proposition (\(p\)) produces \(2^1 = 2\) rows.</li>
+      <li>\(2\) propositions (\(p, q\)) produce \(2^2 = 4\) rows.</li>
+      <li>\(3\) propositions (\(p, q, r\)) produce \(2^3 = 8\) rows.</li>
+      <li>In general, <strong>\(n\) distinct propositions produce \(2^n\) rows</strong>.</li>
+    </ul>
+
+    <h3>Standard 4-Row Setup for Two Variables:</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Truth Table Construction for \(p \land \neg q\):</h3>
+    <p>To evaluate \(p \land \neg q\), first create an intermediate column for \(\neg q\), then compute the conjunction with \(p\):</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(\neg q\)</th><th>\(p \land \neg q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-f">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. Order of operations and brackets -->
+  <div class="card">
+    <h2>3. Order of Operations and Parentheses</h2>
+    <p>The placement of parentheses alters the grouping and final truth evaluation of an expression:</p>
+    <p style="text-align: center; font-size: 1.05rem; font-weight: bold;">
+      \((p \land q) \lor r \quad \not\equiv \quad p \land (q \lor r)\)
+    </p>
+
+    <div class="analogy-box">
+      🔢 <strong>Arithmetic Precedence Analogy:</strong><br>
+      • \((2 + 3) \times 4 = 5 \times 4 = 20\)<br>
+      • \(2 + (3 \times 4) = 2 + 12 = 14\)<br>
+      <em>Parentheses dictate precedence in logic exactly as they do in arithmetic!</em>
+    </div>
+
+    <h3>Precedence Convention:</h3>
+    <p>When parentheses are omitted by convention:</p>
+    <ol>
+      <li>Negation (\(\neg\)) has the highest precedence.</li>
+      <li>Conjunction (\(\land\)) and Disjunction (\(\lor\)) take precedence over Implication (\(\to\)) and Bi-implication (\(\leftrightarrow\)).</li>
+    </ol>
+    <p><em>Best Practice:</em> Always use parentheses explicitly to prevent ambiguity during examination calculations.</p>
+  </div>
+
+  <!-- 4. Logical equivalence -->
+  <div class="card">
+    <h2>4. Logical Equivalence</h2>
+    
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> Two compound propositions \(P\) and \(Q\) are <strong>logically equivalent</strong>, denoted by \(P \equiv Q\) (or \(P \iff Q\)), if and only if they have <strong>identical truth values across every row</strong> of their truth tables.
+    </div>
+
+    <h3>Proving That \(p \to q \equiv \neg p \lor q\):</h3>
+    <p>Construct a comparative truth table and inspect the resulting columns:</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>\(p\)</th><th>\(q\)</th><th>\(\neg p\)</th><th>\(p \to q\)</th><th>\(\neg p \lor q\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-t">T</td><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-f">F</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+          <tr><td class="tt-f">F</td><td class="tt-f">F</td><td class="tt-t">T</td><td class="tt-t">T</td><td class="tt-t">T</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Since the column for \(p \to q\) and the column for \(\neg p \lor q\) match in every single row:</p>
+    <p style="text-align: center; font-size: 1.15rem; font-weight: bold; color: var(--primary);">
+      \(\mathbf{p \to q \equiv \neg p \lor q}\)
+    </p>
+
+    <div class="alert-box">
+      ⚠️ <strong>Equivalence Criteria:</strong> Two statements are equivalent only if they match across <strong>all \(2^n\) rows</strong>. If even a single row differs, they are not logically equivalent.
+    </div>
+  </div>
+
+  <!-- 5. Converse, inverse and contrapositive -->
+  <div class="card">
+    <h2>5. Variations of the Conditional Statement</h2>
+    <p>Given an original conditional statement: \(p \to q\)</p>
+    <p><em>"If it rains (\(p\)), then the ground becomes wet (\(q\))."</em></p>
+
+    <h3>The Three Associated Conditionals:</h3>
+    <ul>
+      <li>
+        <strong>Converse (\(q \to p\)):</strong> Switch the hypothesis and conclusion.<br>
+        <em>"If the ground is wet, then it rains."</em>
+      </li>
+      <li>
+        <strong>Inverse (\(\neg p \to \neg q\)):</strong> Negate both without switching positions.<br>
+        <em>"If it does not rain, then the ground does not become wet."</em>
+      </li>
+      <li>
+        <strong>Contrapositive (\(\neg q \to \neg p\)):</strong> Switch positions <strong>AND</strong> negate both.<br>
+        <em>"If the ground does not become wet, then it does not rain."</em>
+      </li>
+    </ul>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Statement</th><th>Symbolic Form</th><th>Equivalence Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Original Conditional</td><td>\(p \to q\)</td><td rowspan="2" style="vertical-align: middle; font-weight: bold; color: var(--success);">&#8801; Logically Equivalent</td></tr>
+          <tr><td>Contrapositive</td><td>\(\neg q \to \neg p\)</td></tr>
+          <tr><td>Converse</td><td>\(q \to p\)</td><td rowspan="2" style="vertical-align: middle; font-weight: bold; color: var(--primary);">&#8801; Logically Equivalent to each other</td></tr>
+          <tr><td>Inverse</td><td>\(\neg p \to \neg q\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      ⭐ <strong>The Golden Law:</strong><br>
+      • An implication is <strong>always logically equivalent to its contrapositive</strong>: \((p \to q) \equiv (\neg q \to \neg p)\).<br>
+      • An implication is <strong>NOT</strong> generally equivalent to its converse or inverse: \((p \to q) \not\equiv (q \to p)\).
+    </div>
+
+    <div class="analogy-box">
+      🧠 <strong>Memory Summary:</strong><br>
+      • <strong>Converse</strong> = Switch.<br>
+      • <strong>Inverse</strong> = Negate.<br>
+      • <strong>Contrapositive</strong> = Switch + Negate.
+    </div>
+  </div>
+
+  <!-- 6. Important logical laws -->
+  <div class="card">
+    <h2>6. Fundamental Laws of Logical Equivalence</h2>
+    <p>These standard equivalences allow compound propositions to be simplified algebraically without calculating full truth tables:</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Law Category</th><th>Equivalence Identity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Idempotent Laws</strong></td>
+            <td>\(p \lor p \equiv p\)<br>\(p \land p \equiv p\)</td>
+          </tr>
+          <tr>
+            <td><strong>Commutative Laws</strong></td>
+            <td>\(p \lor q \equiv q \lor p\)<br>\(p \land q \equiv q \land p\)</td>
+          </tr>
+          <tr>
+            <td><strong>Associative Laws</strong></td>
+            <td>\((p \lor q) \lor r \equiv p \lor (q \lor r)\)<br>\((p \land q) \land r \equiv p \land (q \land r)\)</td>
+          </tr>
+          <tr>
+            <td><strong>Distributive Laws</strong></td>
+            <td>\(p \lor (q \land r) \equiv (p \lor q) \land (p \lor r)\)<br>\(p \land (q \lor r) \equiv (p \land q) \lor (p \land r)\)</td>
+          </tr>
+          <tr>
+            <td><strong>De Morgan's Laws</strong></td>
+            <td>\(\neg(p \land q) \equiv \neg p \lor \neg q\)<br>\(\neg(p \lor q) \equiv \neg p \land \neg q\)</td>
+          </tr>
+          <tr>
+            <td><strong>Contrapositive Law</strong></td>
+            <td>\(p \to q \equiv \neg q \to \neg p\)</td>
+          </tr>
+          <tr>
+            <td><strong>Double Negation Law</strong></td>
+            <td>\(\neg(\neg p) \equiv p\)</td>
+          </tr>
+          <tr>
+            <td><strong>Complement Laws</strong></td>
+            <td>\(p \lor \neg p \equiv \mathbf{T}\) (Tautology)<br>\(p \land \neg p \equiv \mathbf{F}\) (Contradiction)</td>
+          </tr>
+          <tr>
+            <td><strong>Identity Laws</strong></td>
+            <td>\(p \land \mathbf{T} \equiv p\)<br>\(p \lor \mathbf{F} \equiv p\)</td>
+          </tr>
+          <tr>
+            <td><strong>Domination Laws</strong></td>
+            <td>\(p \lor \mathbf{T} \equiv \mathbf{T}\)<br>\(p \land \mathbf{F} \equiv \mathbf{F}\)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Intuitive Understanding of De Morgan's Laws:</h3>
+    <p>1. <em>"It is NOT true that I study Biology AND Chemistry."</em><br>
+    &bull; Means I do not study Biology <strong>OR</strong> I do not study Chemistry: \(\mathbf{\neg(p \land q) \equiv \neg p \lor \neg q}\)</p>
+
+    <p>2. <em>"It is NOT true that I study Biology OR Chemistry."</em><br>
+    &bull; Means I study neither subject: \(\mathbf{\neg(p \lor q) \equiv \neg p \land \neg q}\)</p>
+
+    <div class="analogy-box">
+      💡 <strong>De Morgan's Operation Rule:</strong> When negation (\(\neg\)) distributes into parentheses, it negates every term and flips the operator (\(\land\) becomes \(\lor\), and \(\lor\) becomes \(\land\)).
+    </div>
+  </div>
+
+  <!-- Interactive Quiz -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. Given the truth values p = True, q = False, and r = True, what is the truth value of the compound proposition (p ∧ q) → r?",
+      options: [
+        "A. True",
+        "B. False",
+        "C. Cannot be determined",
+        "D. Both"
+      ],
+      correct: 0,
+      exp: "Correct! Evaluate inside parentheses first: p ∧ q = T ∧ F = False. Then evaluate the implication: False → r = False → True = True."
+    },
+    {
+      q: "Question 2. How many distinct rows are required in a truth table containing three distinct propositional variables p, q, and r?",
+      options: [
+        "A. 4 rows",
+        "B. 6 rows",
+        "C. 8 rows",
+        "D. 16 rows"
+      ],
+      correct: 2,
+      exp: "Correct! The number of rows is given by 2ⁿ, where n is the number of variables. For n = 3, 2³ = 8 rows."
+    },
+    {
+      q: "Question 3. Which of the following expressions is logically equivalent to the implication p → q?",
+      options: [
+        "A. q → p",
+        "B. ¬p → ¬q",
+        "C. ¬q → ¬p",
+        "D. p ∧ q"
+      ],
+      correct: 2,
+      exp: "Correct! By the Contrapositive Law, an implication p → q is always logically equivalent to its contrapositive: ¬q → ¬p."
+    },
+    {
+      q: "Question 4. What is the contrapositive of the conditional statement: 'If I study, then I pass'?",
+      options: [
+        "A. If I pass, then I study",
+        "B. If I do not study, then I do not pass",
+        "C. If I do not pass, then I do not study",
+        "D. If I study, then I do not pass"
+      ],
+      correct: 2,
+      exp: "Correct! To form the contrapositive, switch the positions AND negate both statements: 'If I do not pass (¬q), then I do not study (¬p)'."
+    },
+    {
+      q: "Question 5. According to De Morgan's Laws, the expression ¬(p ∨ q) is logically equivalent to:",
+      options: [
+        "A. ¬p ∨ ¬q",
+        "B. ¬p ∧ ¬q",
+        "C. p ∧ q",
+        "D. p → q"
+      ],
+      correct: 1,
+      exp: "Correct! By De Morgan's Law, negating a disjunction flips the connective to a conjunction and negates each term: ¬(p ∨ q) ≡ ¬p ∧ ¬q."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>

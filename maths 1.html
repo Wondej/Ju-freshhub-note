@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundations of Propositional Logic</title>
+  <!-- MathJax for mathematical typography -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --accent: #eef2ff;
+      --border: #e2e8f0;
+      --badge-bg: #e0e7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #4338ca, #312e81);
+      color: white;
+      padding: 26px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(67, 56, 202, 0.28);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    /* Lists */
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* Callouts */
+    .definition-box {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    .alert-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .analogy-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    /* Truth Value Badges */
+    .badge-true {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .badge-false {
+      display: inline-block;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+    .quiz-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not([disabled]) {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: bold;
+    }
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+    .feedback {
+      display: none;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .feedback.show {
+      display: block;
+    }
+    .feedback.correct-text {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .feedback.wrong-text {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>Foundations of Propositional Logic</h1>
+    <p>Principles of Valid Reasoning, Statements, and Truth Values</p>
+  </header>
+
+  <!-- 1. What is mathematical logic? -->
+  <div class="card">
+    <h2>1. What is Mathematical Logic?</h2>
+    
+    <div class="analogy-box">
+      ⚖️ <strong>Courtroom Analogy:</strong> Imagine you are a judge in a courtroom. Two individuals make assertions: one presents valid reasoning supported by premises, while the other makes an assertion that does not logically follow from the evidence. To determine which deduction is sound, rigorous rules of reasoning are indispensable.
+    </div>
+
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> <strong>Mathematical (symbolic) logic</strong> is an analytical theory of the art of reasoning whose primary goal is to systematize, formalize, and codify the principles of valid deductive reasoning.
+    </div>
+
+    <p>In classical logic, mathematical principles allow us to systematically test whether a deduction is sound or fallacious.</p>
+
+    <h3>Classical Deductive Example:</h3>
+    <ul>
+      <li>All humans are mortal.</li>
+      <li>John is a human.</li>
+      <li><strong>Therefore, John is mortal.</strong></li>
+    </ul>
+
+    <h3>Objectives of Studying Mathematical Logic:</h3>
+    <ul>
+      <li>Distinguish valid arguments from logical fallacies.</li>
+      <li>Unambiguously assess whether mathematical assertions are true or false.</li>
+      <li>Construct compound statements systematically using symbolic operators.</li>
+      <li>Formulate and verify rigorous mathematical proofs.</li>
+    </ul>
+  </div>
+
+  <!-- 2. What is a proposition? -->
+  <div class="card">
+    <h2>2. What is a Proposition?</h2>
+    
+    <p>Consider the following two assertions:</p>
+    <ul>
+      <li><em>"Jimma University is in Ethiopia."</em> &nbsp;&rarr;&nbsp; Evaluates directly to <span class="badge-true">True</span>.</li>
+      <li><em>"A triangle has four sides."</em> &nbsp;&rarr;&nbsp; Evaluates directly to <span class="badge-false">False</span>.</li>
+    </ul>
+    <p>Because both sentences possess a definite, unambiguous truth status, both are classified as propositions.</p>
+
+    <div class="definition-box">
+      📖 <strong>Definition:</strong> A <strong>proposition</strong> (or <em>statement</em>) is a declarative sentence that has a truth value: it is either <strong>True (T)</strong> or <strong>False (F)</strong>, but <strong>not both</strong> simultaneously.
+    </div>
+
+    <div class="analogy-box">
+      💡 <strong>The Binary Switch Analogy:</strong> A proposition functions like a binary electrical switch. It can exist in exactly one of two distinct states:
+      <div style="margin-top: 8px; font-weight: bold; display: flex; gap: 16px;">
+        <span class="badge-true">T (True)</span>
+        <span class="badge-false">F (False)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Sentence Classification -->
+  <div class="card">
+    <h2>3. Classification of Sentences</h2>
+    <p>Not every grammatical sentence is a proposition. Only declarative statements that assert a truth condition qualify:</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>Sentence</th><th>Proposition?</th><th>Type / Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>\(2\) is an even number.</td>
+            <td><strong>Yes</strong></td>
+            <td>Declarative: <span class="badge-true">True</span></td>
+          </tr>
+          <tr>
+            <td>A triangle has four sides.</td>
+            <td><strong>Yes</strong></td>
+            <td>Declarative: <span class="badge-false">False</span></td>
+          </tr>
+          <tr>
+            <td>\(5 + 3 = 8\)</td>
+            <td><strong>Yes</strong></td>
+            <td>Mathematical identity: <span class="badge-true">True</span></td>
+          </tr>
+          <tr>
+            <td>What is your name?</td>
+            <td><strong>No</strong></td>
+            <td>Question (Interrogative)</td>
+          </tr>
+          <tr>
+            <td>Close the door!</td>
+            <td><strong>No</strong></td>
+            <td>Command (Imperative)</td>
+          </tr>
+          <tr>
+            <td>May God bless you!</td>
+            <td><strong>No</strong></td>
+            <td>Exclamation / Wish (Optative)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box">
+      ⚠️ <strong>Crucial Exam Distinction:</strong> A proposition does <strong>not</strong> need to be true to qualify as a proposition. A sentence that is unequivocally <strong>False</strong> is still a valid proposition!
+    </div>
+  </div>
+
+  <!-- 4. Known vs. Unknown Truth Values -->
+  <div class="card">
+    <h2>4. Must the Truth Value Be Known Immediately?</h2>
+    <p><strong>No.</strong> Whether human knowledge currently knows the truth value is irrelevant to the status of a proposition.</p>
+
+    <div class="analogy-box">
+      🔢 <strong>Mathematical Example:</strong><br>
+      <em>"The \(1000^{\text{th}}\) digit in the decimal expansion of \(\pi\) is \(7\)."</em>
+    </div>
+
+    <p>Even if an individual does not personally know the exact digit without computation, the statement itself inherently possesses a fixed, objective truth value: it is either conclusively true or conclusively false. Therefore, it is a <strong>proposition</strong>.</p>
+
+    <div class="alert-box">
+      📌 <strong>Rule:</strong> Lacking immediate knowledge of the truth value does <strong>not</strong> mean the statement lacks a truth value.
+    </div>
+  </div>
+
+  <!-- 5. Examples Evaluated -->
+  <div class="card">
+    <h2>5. Evaluation of Examples</h2>
+    <ul>
+      <li>
+        <strong>"Every human being needs oxygen."</strong><br>
+        &bull; <em>Classification:</em> <strong>Proposition</strong> (<span class="badge-true">True</span>). It makes an objective factual claim.
+      </li>
+      <li>
+        <strong>"Please bring me water."</strong><br>
+        &bull; <em>Classification:</em> <strong>Not a proposition</strong>. This is an imperative command/request with no truth value.
+      </li>
+      <li>
+        <strong>"Some planets have no moons."</strong><br>
+        &bull; <em>Classification:</em> <strong>Proposition</strong> (<span class="badge-true">True</span>). A declarative astronomical claim with a definite truth status.
+      </li>
+      <li>
+        <strong>"Is Jimma University beautiful?"</strong><br>
+        &bull; <em>Classification:</em> <strong>Not a proposition</strong>. This is an interrogative question involving subjective opinion.
+      </li>
+    </ul>
+  </div>
+
+  <!-- 6. Diagnostic Test & Traps -->
+  <div class="card">
+    <h2>6. Examination Guidelines & Pitfalls</h2>
+
+    <h3>The P-T-F Diagnostic Test:</h3>
+    <p>To determine whether an expression is a proposition in an exam, verify three conditions:</p>
+    <ol>
+      <li>Is it a complete <strong>declarative</strong> sentence?</li>
+      <li>Does it assert an objective factual claim?</li>
+      <li>Can it be assigned exactly one truth value—either <strong>True or False</strong>, but not both?</li>
+    </ol>
+
+    <div class="alert-box">
+      🚫 <strong>Common Examination Pitfalls:</strong>
+      <ul>
+        <li><strong>False statements are propositions:</strong> Saying <em>"\(2 + 2 = 5\)"</em> is completely false, but it is unequivocally a proposition.</li>
+        <li><strong>Unknown truth values are propositions:</strong> Statements concerning unverified facts with definite truth values are propositions.</li>
+        <li><strong>Non-declarative sentences are never propositions:</strong> Questions (<em>Why?</em>), commands (<em>Go!</em>), and wishes (<em>Good luck!</em>) have no truth values.</li>
+        <li><strong>Open Sentences (Predicates):</strong> An equation containing an unspecified variable, such as \(x + 3 = 7\), is an <strong>open proposition</strong> (predicate). It cannot have a truth value until a domain value is substituted for \(x\).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Self-Assessment Quiz -->
+  <div class="quiz-container">
+    <div class="quiz-header">Self-Assessment Exercise</div>
+    <div id="quiz-mount"></div>
+  </div>
+
+</div>
+
+<script>
+  const quizData = [
+    {
+      q: "Question 1. Which of the following sentences qualifies as a proposition?",
+      options: [
+        "A. Close the window.",
+        "B. What time is it?",
+        "C. The sum of 4 and 5 is 9.",
+        "D. May you succeed!"
+      ],
+      correct: 2,
+      exp: "Correct! 'The sum of 4 and 5 is 9' is a declarative statement with a definitive truth value (True). The others are a command, a question, and an optative wish."
+    },
+    {
+      q: "Question 2. Which of the following expressions is FALSE but still classified as a proposition?",
+      options: [
+        "A. How old are you?",
+        "B. A square has five sides.",
+        "C. Please sit down.",
+        "D. Wow!"
+      ],
+      correct: 1,
+      exp: "Correct! 'A square has five sides' is a declarative statement that is definitively False; therefore, it is a proposition. The others are not declarative statements."
+    },
+    {
+      q: "Question 3. A sentence can be a proposition even if human knowledge does not currently know whether it is true or false. This assertion is:",
+      options: [
+        "A. False",
+        "B. True",
+        "C. Sometimes true, sometimes not a proposition",
+        "D. Impossible"
+      ],
+      correct: 1,
+      exp: "Correct! A proposition requires the existence of an objective truth value (T or F), regardless of whether we currently know that value."
+    },
+    {
+      q: "Question 4. Which of the following is NOT a proposition?",
+      options: [
+        "A. Ethiopia is in Africa.",
+        "B. 10 is greater than 3.",
+        "C. The sun rises in the east.",
+        "D. Where do you live?"
+      ],
+      correct: 3,
+      exp: "Correct! 'Where do you live?' is an interrogative question and cannot be assigned a truth value."
+    },
+    {
+      q: "Question 5. Consider the statement x + 3 = 7, where the variable x has not been specified. This expression is best classified as:",
+      options: [
+        "A. A true proposition",
+        "B. A false proposition",
+        "C. An open proposition",
+        "D. A command"
+      ],
+      correct: 2,
+      exp: "Correct! Expressions containing unspecified variables are open propositions (predicates); they become propositions only when a specific value is assigned to the variable."
+    }
+  ];
+
+  const quizMount = document.getElementById('quiz-mount');
+
+  quizData.forEach((item, qIdx) => {
+    const qBlock = document.createElement('div');
+    qBlock.className = 'question-block';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = item.q;
+    qBlock.appendChild(title);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+
+    item.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = optText;
+
+      btn.addEventListener('click', () => {
+        const allBtns = qBlock.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.setAttribute('disabled', 'true'));
+
+        if (optIdx === item.correct) {
+          btn.classList.add('correct');
+          feedback.className = 'feedback show correct-text';
+          feedback.innerHTML = "✅ " + item.exp;
+        } else {
+          btn.classList.add('wrong');
+          allBtns[item.correct].classList.add('correct');
+          feedback.className = 'feedback show wrong-text';
+          feedback.innerHTML = "❌ ትክክለኛው መልስ፦ " + item.options[item.correct] + "<br>" + item.exp;
+        }
+      });
+
+      qBlock.appendChild(btn);
+    });
+
+    qBlock.appendChild(feedback);
+    quizMount.appendChild(qBlock);
+  });
+</script>
+
+</body>
+</html>
