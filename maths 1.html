@@ -106,17 +106,17 @@
   <!-- Sticky Top Navigation Bar -->
   <header class="bg-white/80 dark:bg-slate-950/75 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 sticky top-0 z-30">
     <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
-      <a href="index.html" class="btn-ghost !px-3 !py-2 shrink-0">
+      <button type="button" onclick="goBackToDashboard()" class="btn-ghost !px-3 !py-2 shrink-0">
         <i data-lucide="arrow-left" class="w-4 h-4"></i>
-        <span>Back to Portal</span>
-      </a>
+        <span>Back to Dashboard</span>
+      </button>
 
       <div class="min-w-0 text-center hidden sm:block">
         <span class="text-xs font-display font-bold text-slate-800 dark:text-white truncate block">Mathematics for Natural Sciences</span>
         <span class="text-[11px] font-semibold text-brand-600 dark:text-brand-400">JU FreshHub Study Notes</span>
       </div>
 
-      <button onclick="toggleTheme()" class="btn-ghost !px-2.5 shrink-0" title="Toggle dark mode">
+      <button type="button" onclick="toggleTheme()" class="btn-ghost !px-2.5 shrink-0" title="Toggle dark mode">
         <i data-lucide="moon" id="theme-icon" class="w-4 h-4"></i>
       </button>
     </div>
@@ -358,7 +358,7 @@
       <!-- Questions Mount -->
       <div id="quiz-mount" class="space-y-6"></div>
 
-      <!-- Automatic Final Result Card (Appears immediately once all 5 are answered) -->
+      <!-- Automatic Final Result Card -->
       <div id="quiz-result" class="hidden rounded-2xl p-5 sm:p-6 border text-center space-y-3 transition-all">
         <div id="result-icon-box" class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center"></div>
         <div>
@@ -367,14 +367,14 @@
         </div>
         <p id="result-message" class="text-sm font-medium text-slate-600 dark:text-slate-300"></p>
         <div class="pt-2 flex flex-wrap justify-center gap-2">
-          <button onclick="resetQuiz()" class="btn-primary !px-5 !py-2.5 text-xs">
+          <button type="button" onclick="resetQuiz()" class="btn-primary !px-5 !py-2.5 text-xs">
             <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
             <span>Retake Quiz</span>
           </button>
-          <a href="index.html" class="btn-ghost !px-5 !py-2.5 text-xs">
+          <button type="button" onclick="goBackToDashboard()" class="btn-ghost !px-5 !py-2.5 text-xs">
             <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-            <span>Back to Portal</span>
-          </a>
+            <span>Back to Dashboard</span>
+          </button>
         </div>
       </div>
     </section>
@@ -459,7 +459,7 @@
       progressEl.innerText = `0 / ${quizData.length}`;
       resultEl.classList.add("hidden");
 
-      quizData.forEach((item, qIdx) => {
+      quizData.forEach((item) => {
         const qBlock = document.createElement("div");
         qBlock.className = "pb-5 border-b border-dashed border-slate-200 dark:border-slate-700 last:border-b-0 last:pb-0 space-y-2.5";
 
@@ -556,7 +556,19 @@
       document.getElementById("quiz-mount").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    // Theme helpers matching index.html
+    function goBackToDashboard() {
+      try {
+        if (window.history.length > 1 && document.referrer) {
+          const ref = new URL(document.referrer);
+          if (ref.origin === window.location.origin || document.referrer.includes("index.html")) {
+            window.history.back();
+            return;
+          }
+        }
+      } catch (e) {}
+      window.location.href = "index.html";
+    }
+
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle("dark");
       try { localStorage.setItem("ju_theme", isDark ? "dark" : "light"); } catch (e) {}
