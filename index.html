@@ -94,8 +94,21 @@
   <!-- Toast Container -->
   <div id="toast-root" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 w-[min(92vw,22rem)] pointer-events-none"></div>
 
+  <!-- ======================== GLOBAL AUTH LOADING SCREEN ======================== -->
+  <div id="auth-loading-screen" class="fixed inset-0 z-[200] bg-gradient-to-br from-brand-900 via-slate-900 to-slate-950 flex flex-col items-center justify-center p-4 text-white">
+    <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 animate-bounce mb-4">
+      <div class="ju-logo-box w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center font-display font-extrabold text-xl">
+        <img class="ju-logo-img hidden w-full h-full object-cover scale-[1.15]" alt="JU logo" />
+        <span class="ju-logo-text">JU</span>
+      </div>
+    </div>
+    <h2 class="font-display font-bold text-lg mb-1">JU FreshHub</h2>
+    <p class="text-xs text-brand-200/80 mb-6">Loading student session...</p>
+    <div class="w-8 h-8 border-3 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
   <!-- ======================== STUDENT LOGIN OVERLAY ======================== -->
-  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gradient-to-br from-brand-900 via-slate-900 to-slate-950 overflow-hidden">
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-gradient-to-br from-brand-900 via-slate-900 to-slate-950 overflow-hidden">
     <img id="login-bg" class="hidden absolute inset-0 w-full h-full object-cover opacity-40" alt="" />
     <div class="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-brand-500/30 blur-3xl animate-floaty"></div>
     <div class="absolute -bottom-24 -right-16 w-80 h-80 rounded-full bg-brand-gold/20 blur-3xl animate-floaty" style="animation-delay:-3s"></div>
@@ -415,7 +428,9 @@
 
     function setupAuthListener() {
       auth.onAuthStateChanged(async (user) => {
+        const loadingScreen = document.getElementById("auth-loading-screen");
         if (user) {
+          if (loadingScreen) loadingScreen.classList.add("hidden");
           document.getElementById("auth-modal").classList.add("hidden");
           document.getElementById("app-container").classList.remove("hidden");
           currentStudentName = user.displayName || (user.email ? user.email.split("@")[0] : "Student");
@@ -433,6 +448,7 @@
           render();
           lucide.createIcons();
         } else {
+          if (loadingScreen) loadingScreen.classList.add("hidden");
           document.getElementById("auth-modal").classList.remove("hidden");
           document.getElementById("app-container").classList.add("hidden");
           lucide.createIcons();
